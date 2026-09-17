@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>塔罗牌网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .tarot-deck {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .tarot-card {
+            width: 100px;
+            height: 150px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .card-meaning {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>塔罗牌网站</h1>
+    <div>
+        <button onclick="drawCard()">抽一张牌</button>
+    </div>
+    <div class="tarot-deck" id="tarotDeck">
+        <!-- 卡片图片将会在这里展示 -->
+    </div>
+    <div class="card-meaning" id="cardMeaning">
+        <!-- 选中的卡片意义将会在这里展示 -->
+    </div>
+    <script>
+        const cards = [
+            { name: "愚者", meaning: "新的开始，自由，冒险" },
+            { name: "魔术师", meaning: "智慧，灵活性，创造力" },
+            { name: "女祭司", meaning: "智慧，直觉，内心世界" },
+            { name: "女皇", meaning: "丰收，自然，母性" },
+            { name: "皇帝", meaning: "权力，领导，稳定" }
+            // 添加更多卡片信息
+        ];
+
+        function drawCard() {
+            const deck = document.getElementById('tarotDeck');
+            const meaning = document.getElementById('cardMeaning');
+            deck.innerHTML = '';
+            meaning.innerHTML = '';
+
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            const cardElement = document.createElement('div');
+            cardElement.className = 'tarot-card';
+            cardElement.innerText = randomCard.name;
+            cardElement.onclick = () => {
+                meaning.innerText = `${randomCard.name}: ${randomCard.meaning}`;
+            };
+            deck.appendChild(cardElement);
+        }
+    </script>
+</body>
+</html>

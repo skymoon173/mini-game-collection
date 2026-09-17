@@ -1,0 +1,432 @@
+/* ========== 火柴人烈焰跑酷 样式表（零外部依赖） ========== */
+
+:root {
+  --main: #7c5cff;
+  --cyan: #22d3ee;
+  --pink: #ff5ca8;
+  --orange: #ffb347;
+  --panel: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.12);
+  --text-dim: #aab1dd;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #e8ebff;
+  background: radial-gradient(circle at 50% 30%, #171a3a, #0b0e20);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ---------- 顶部栏 ---------- */
+.topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(10, 12, 28, 0.45);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(124, 92, 255, 0.9), 0 0 32px rgba(124, 92, 255, 0.45);
+}
+
+.back-link {
+  flex: 0 0 auto;
+  color: #cdd3ff;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+}
+
+/* ---------- 游戏舞台 ---------- */
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.stage::after {
+  /* 舞台四周轻微暗角，不阻挡操作 */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 46%, transparent 62%, rgba(5, 7, 18, 0.38) 100%);
+}
+
+#game {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* ---------- 抬头显示 ---------- */
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  pointer-events: none;
+}
+
+.hud-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-item {
+  font-size: 13px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.hud-item span {
+  margin-left: 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.7);
+}
+
+.hud-item.small span {
+  font-size: 15px;
+  color: #c9bfff;
+  text-shadow: 0 0 8px rgba(124, 92, 255, 0.7);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.chip b {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* 金币标签：矢量星芒金色圆点 */
+.coin-chip {
+  color: #ffd98a;
+  border-color: rgba(255, 179, 71, 0.55);
+  box-shadow: 0 0 14px rgba(255, 179, 71, 0.18);
+}
+
+.coin-chip::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff3c4, #ffb02e);
+  box-shadow: 0 0 8px rgba(255, 200, 90, 0.9);
+}
+
+.coin-chip b {
+  color: #ffe7ae;
+  text-shadow: 0 0 8px rgba(255, 179, 71, 0.8);
+}
+
+.level-chip {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.18);
+}
+
+.level-chip b {
+  color: #c9f7ff;
+  text-shadow: 0 0 8px rgba(34, 211, 238, 0.8);
+}
+
+.icon-btn {
+  pointer-events: auto;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  color: #dfe3ff;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.5);
+}
+
+/* ---------- 遮罩与面板 ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(7, 9, 22, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  width: min(440px, 100%);
+  padding: 30px 28px 32px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 46px rgba(124, 92, 255, 0.16);
+}
+
+.panel-title {
+  margin-bottom: 18px;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  text-indent: 6px;
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(124, 92, 255, 0.95), 0 0 38px rgba(124, 92, 255, 0.5);
+}
+
+.intro {
+  margin: 0 0 24px;
+  list-style: none;
+}
+
+.intro li {
+  position: relative;
+  padding: 5px 0 5px 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #c3c9ef;
+  text-align: left;
+}
+
+.intro li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.tip {
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.result {
+  margin: 6px 0 18px;
+}
+
+.result-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.result-row span {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.65);
+}
+
+.record {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-shadow: 0 0 12px rgba(255, 179, 71, 0.85);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-indent: 3px;
+  color: #ffffff;
+  padding: 12px 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 92, 255, 0.75);
+  background: linear-gradient(135deg, #7c5cff, #5638e0);
+  box-shadow: 0 0 22px rgba(124, 92, 255, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.12);
+  box-shadow: 0 0 30px rgba(124, 92, 255, 0.65), 0 0 12px rgba(34, 211, 238, 0.35);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* ---------- 底部说明 ---------- */
+.footer {
+  flex: 0 0 auto;
+  padding: 11px 16px;
+  text-align: center;
+  font-size: 12.5px;
+  color: #8e96c4;
+  border-top: 1px solid var(--line);
+  background: rgba(10, 12, 28, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------- 小屏适配 ---------- */
+@media (max-width: 560px) {
+  .topbar {
+    padding: 10px 14px;
+  }
+
+  .logo {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .back-link {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  .hud {
+    padding: 9px 10px;
+    gap: 6px;
+  }
+
+  .hud-item span {
+    font-size: 17px;
+  }
+
+  .hud-item.small span {
+    font-size: 13px;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+
+  .chip b {
+    font-size: 12px;
+  }
+
+  .icon-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .panel {
+    padding: 24px 20px 26px;
+  }
+
+  .panel-title {
+    font-size: 23px;
+    letter-spacing: 4px;
+    text-indent: 4px;
+  }
+
+  .intro li {
+    font-size: 13px;
+  }
+
+  .footer {
+    font-size: 10.5px;
+    white-space: normal;
+    line-height: 1.6;
+  }
+}

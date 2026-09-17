@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>火柴人烈焰跑酷</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">火柴人烈焰跑酷</h1>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 游戏舞台 -->
+  <main class="stage" id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- 抬头显示 -->
+    <div class="hud">
+      <div class="hud-left">
+        <div class="hud-item">距离<span id="distVal">0m</span></div>
+        <div class="hud-item small">最高<span id="bestVal">0m</span></div>
+      </div>
+      <div class="hud-right">
+        <div class="chip coin-chip">金币<b id="coinVal">0</b></div>
+        <div class="chip level-chip">速度<b id="levelVal">Lv.1</b></div>
+        <button class="icon-btn" id="pauseBtn" type="button">暂停</button>
+      </div>
+    </div>
+
+    <!-- 开始遮罩 -->
+    <div class="overlay" id="startOverlay">
+      <section class="panel">
+        <h2 class="panel-title">火柴人烈焰跑酷</h2>
+        <ul class="intro">
+          <li>拖拽烈焰的火柴人穿越昼夜变幻的城市，跑得越远分数越高</li>
+          <li>空格 / ↑ / 点击屏幕跳跃，空中可再跳一次；按住 ↓ 滑铲</li>
+          <li>矮砖块跳过、高架障碍滑铲穿过、火坑需提前跃过</li>
+          <li>收集悬浮金币可轻微磁吸，每 50 枚速度提升一档</li>
+        </ul>
+        <button class="btn primary" id="startBtn" type="button">开始游戏</button>
+      </section>
+    </div>
+
+    <!-- 暂停遮罩 -->
+    <div class="overlay hidden" id="pauseOverlay">
+      <section class="panel">
+        <h2 class="panel-title">已暂停</h2>
+        <p class="tip">按 Esc 键或点击下方按钮继续奔跑</p>
+        <button class="btn primary" id="resumeBtn" type="button">继续游戏</button>
+      </section>
+    </div>
+
+    <!-- 结束遮罩 -->
+    <div class="overlay hidden" id="overOverlay">
+      <section class="panel">
+        <h2 class="panel-title">烈焰熄灭</h2>
+        <div class="result">
+          <div class="result-row">本次距离<span id="finalDist">0m</span></div>
+          <div class="result-row">收集金币<span id="finalCoins">0</span></div>
+          <div class="result-row">历史最远<span id="finalBest">0m</span></div>
+        </div>
+        <p class="record hidden" id="recordTip">恭喜刷新最远纪录！</p>
+        <button class="btn primary" id="againBtn" type="button">再玩一次</button>
+      </section>
+    </div>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="footer">
+    空格 / ↑ 跳跃（可二段跳） · ↓ 滑铲 · 收集金币提速 · Esc 暂停 · 移动端点击跳跃、下滑滑铲
+  </footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

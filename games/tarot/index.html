@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0e20">
+<title>星空塔罗</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 程序化星空画布 -->
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+  <div class="nebula nebula-a" aria-hidden="true"></div>
+  <div class="nebula nebula-b" aria-hidden="true"></div>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" class="mk-ring"/>
+        <path d="M16 7 L17.6 14.4 L25 16 L17.6 17.6 L16 25 L14.4 17.6 L7 16 L14.4 14.4 Z" class="mk-fill"/>
+        <circle cx="25" cy="8" r="1.6" class="mk-fill"/>
+      </svg>
+      <span class="brand-text">星空塔罗</span>
+    </div>
+    <div class="top-actions">
+      <button id="muteBtn" class="btn-mini" type="button" aria-label="切换翻牌音效">
+        <svg class="ic ic-on" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5v5h3.5L13 19V5L7.5 9.5H4z"/>
+          <path d="M16 9.2a4.2 4.2 0 0 1 0 5.6" fill="none"/>
+        </svg>
+        <svg class="ic ic-off" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5v5h3.5L13 19V5L7.5 9.5H4z"/>
+          <line x1="16" y1="9.5" x2="21" y2="14.5"/>
+          <line x1="21" y1="9.5" x2="16" y2="14.5"/>
+        </svg>
+        <span id="muteText">音效 开</span>
+      </button>
+      <a class="btn-mini back-link" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- 第一屏：牌阵选择 -->
+    <section id="screenChoose" class="screen">
+      <h1 class="hero-title">星空塔罗</h1>
+      <p class="hero-sub">在深紫与金色的星光下，静心默念你的疑问，<br>选择一种牌阵，让 22 张大阿卡纳为你显现此刻的指引。</p>
+
+      <div class="spread-grid">
+        <button class="spread-card" type="button" data-spread="1">
+          <svg class="spread-icon" viewBox="0 0 80 96" aria-hidden="true">
+            <rect x="22" y="8" width="36" height="60" rx="6" class="sc-frame"/>
+            <path d="M40 22 L42.4 33.6 L54 36 L42.4 38.4 L40 50 L37.6 38.4 L26 36 L37.6 33.6 Z" class="sc-fill"/>
+            <line x1="30" y1="58" x2="50" y2="58" class="sc-line"/>
+            <circle cx="14" cy="20" r="2.4" class="sc-fill"/>
+            <circle cx="66" cy="70" r="2" class="sc-fill"/>
+          </svg>
+          <span class="spread-name">今日指引</span>
+          <span class="spread-desc">单牌牌阵，快速抽取一张，聆听宇宙给今天的一句话。</span>
+        </button>
+
+        <button class="spread-card" type="button" data-spread="3">
+          <svg class="spread-icon" viewBox="0 0 80 96" aria-hidden="true">
+            <rect x="6" y="20" width="24" height="48" rx="5" transform="rotate(-10 18 44)" class="sc-frame"/>
+            <rect x="28" y="14" width="24" height="48" rx="5" class="sc-frame sc-mid"/>
+            <rect x="50" y="20" width="24" height="48" rx="5" transform="rotate(10 62 44)" class="sc-frame"/>
+            <path d="M40 24 L41.7 32.3 L50 34 L41.7 35.7 L40 44 L38.3 35.7 L30 34 L38.3 32.3 Z" class="sc-fill"/>
+            <line x1="33" y1="50" x2="47" y2="50" class="sc-line"/>
+          </svg>
+          <span class="spread-name">过去 · 现在 · 未来</span>
+          <span class="spread-desc">三牌牌阵，沿时间之河回望来路、审视当下、眺望前路。</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 第二屏：展牌与抽取 -->
+    <section id="screenDeal" class="screen hidden">
+      <h2 id="dealTitle" class="deal-title"></h2>
+      <p id="dealHint" class="deal-hint"></p>
+
+      <div id="fanWrap" class="fan-wrap">
+        <div id="fan" class="fan"></div>
+      </div>
+
+      <div class="deal-actions">
+        <button id="randomBtn" class="btn-gold hidden" type="button">随机抽取</button>
+      </div>
+
+      <div id="slots" class="slots"></div>
+
+      <!-- 综合解读 -->
+      <div id="readingPanel" class="reading hidden" aria-live="polite"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <span>星空塔罗 · 全部牌面由几何图形程序化绘制</span>
+    <span class="foot-dot">·</span>
+    <span>仅供娱乐参考</span>
+  </footer>
+
+  <!-- 全局内联 SVG 渐变定义，供所有牌面引用，零外部资源 -->
+  <svg width="0" height="0" class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f9ecc9"/>
+        <stop offset="48%" stop-color="#d4af7a"/>
+        <stop offset="100%" stop-color="#a9783c"/>
+      </linearGradient>
+      <linearGradient id="gAmber" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffd9a0"/>
+        <stop offset="100%" stop-color="#ffb347"/>
+      </linearGradient>
+      <linearGradient id="gCyan" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#cffafe"/>
+        <stop offset="100%" stop-color="#22d3ee"/>
+      </linearGradient>
+      <radialGradient id="faceBg" cx="50%" cy="34%" r="78%">
+        <stop offset="0%" stop-color="#352c66"/>
+        <stop offset="55%" stop-color="#1b1738"/>
+        <stop offset="100%" stop-color="#100d26"/>
+      </radialGradient>
+      <radialGradient id="backBg" cx="50%" cy="42%" r="80%">
+        <stop offset="0%" stop-color="#2a2354"/>
+        <stop offset="60%" stop-color="#171333"/>
+        <stop offset="100%" stop-color="#0d0a22"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <script src="game.js"></script>
+</body>
+</html>

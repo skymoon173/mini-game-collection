@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>霓虹贪吃蛇</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">霓虹贪吃蛇</div>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 游戏舞台 -->
+  <main class="stage">
+
+    <!-- 数据栏 -->
+    <div class="hud panel">
+      <div class="hud-item">
+        <span class="hud-label">长度</span>
+        <span id="hud-length" class="hud-value c-purple">3</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">分数</span>
+        <span id="hud-score" class="hud-value c-cyan">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">最高分</span>
+        <span id="hud-best" class="hud-value c-gold">0</span>
+      </div>
+      <button id="pause-btn" class="ghost-btn hidden" type="button">暂停</button>
+    </div>
+
+    <!-- Canvas 与遮罩层 -->
+    <div id="canvas-wrap" class="canvas-wrap">
+      <canvas id="game" aria-label="霓虹贪吃蛇游戏画面"></canvas>
+
+      <!-- 开始遮罩 -->
+      <div id="start-overlay" class="overlay">
+        <div class="panel overlay-panel">
+          <h1 class="title">霓虹贪吃蛇</h1>
+          <p class="intro">
+            在赛博点阵中操控能量蛇，吞吃红色能量块不断成长。<br>
+            撞墙或咬到自己即会消散。罕见的<span class="c-gold">金色能量块</span>限时 6 秒，<br>
+            吃到可得 3 分并触发短暂加速。
+          </p>
+          <button id="start-btn" class="btn-primary" type="button">开始游戏</button>
+        </div>
+      </div>
+
+      <!-- 暂停遮罩 -->
+      <div id="pause-overlay" class="overlay hidden">
+        <div class="panel overlay-panel">
+          <h2 class="subtitle">已暂停</h2>
+          <p class="intro">按空格或 Esc 继续游戏</p>
+          <button id="resume-btn" class="btn-primary" type="button">继续游戏</button>
+        </div>
+      </div>
+
+      <!-- 结束遮罩 -->
+      <div id="over-overlay" class="overlay hidden">
+        <div class="panel overlay-panel">
+          <h2 class="subtitle">游戏结束</h2>
+          <div class="result-row">本局得分 <span id="final-score" class="c-cyan">0</span></div>
+          <div class="result-row">蛇身长度 <span id="final-length" class="c-purple">3</span></div>
+          <div id="new-record" class="record-badge hidden">新纪录诞生</div>
+          <button id="restart-btn" class="btn-primary" type="button">再玩一次</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="tips">方向键/WASD/滑动转向 · 空格暂停 · 金色食物限时高分</footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

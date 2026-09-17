@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>霓虹躲避</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">霓虹躲避</h1>
+    <div class="top-actions">
+      <button id="pauseBtn" class="btn-ghost hidden" type="button">暂停</button>
+      <a class="btn-ghost" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <!-- 游戏区 -->
+  <main class="stage" id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- 游戏内 HUD -->
+    <div class="hud" id="hud">
+      <div class="chip">
+        <span class="k">存活</span>
+        <span class="v" id="hudTime">0.0</span>
+        <span class="u">秒</span>
+      </div>
+      <div class="chip">
+        <span class="k">最高</span>
+        <span class="v" id="hudBest">0.0</span>
+        <span class="u">秒</span>
+      </div>
+      <div class="chip">
+        <span class="k">难度</span>
+        <span class="v v-cyan" id="hudLevel">1</span>
+      </div>
+    </div>
+
+    <!-- 开始遮罩 -->
+    <div class="overlay" id="startOverlay">
+      <div class="panel">
+        <h2 class="title">霓虹躲避</h2>
+        <p class="desc">驾驶发光飞船在封闭场地中自由穿梭，<br>躲避从四面八方涌入的霓虹方块。<br>吃到青色能量球可获得 2 秒无敌。<br>坚持得越久，方块越快、越密、越小。</p>
+        <button id="btnStart" class="btn-primary" type="button">开始游戏</button>
+      </div>
+    </div>
+
+    <!-- 暂停遮罩 -->
+    <div class="overlay hidden" id="pauseOverlay">
+      <div class="panel">
+        <h2 class="title title-sm">已暂停</h2>
+        <p class="desc">当前已存活 <span class="num-cyan" id="pauseTime">0.0</span> 秒</p>
+        <div class="btn-row">
+          <button id="btnResume" class="btn-primary" type="button">继续游戏</button>
+          <button id="btnRestart" class="btn-ghost btn-asbtn" type="button">重新开始</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 结束遮罩 -->
+    <div class="overlay hidden" id="overOverlay">
+      <div class="panel">
+        <h2 class="title title-sm">飞船坠毁</h2>
+        <p class="record-tip hidden" id="recordTip">新纪录！</p>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span class="k">本次存活</span>
+            <span class="v" id="finalTime">0.0</span>
+            <span class="u">秒</span>
+          </div>
+          <div class="stat-box">
+            <span class="k">历史最高</span>
+            <span class="v v-amber" id="finalBest">0.0</span>
+            <span class="u">秒</span>
+          </div>
+        </div>
+        <button id="btnAgain" class="btn-primary" type="button">再玩一次</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="tips">WASD / 方向键移动 · 吃青色球短暂无敌 · Esc 暂停 · 触屏可拖动移动</footer>
+
+<script src="game.js"></script>
+</body>
+</html>

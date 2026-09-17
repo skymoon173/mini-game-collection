@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小游戏合集 · 全新重制版</title>
+<meta name="description" content="10 个纯前端零依赖的精品网页小游戏：动作射击、贪吃蛇、2048、数独、农场经营、跑酷与塔罗占卜">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<header class="site-header">
+  <a class="brand" href="./index.html">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3 L28 9 V23 L16 29 L4 23 V9 Z" fill="none" stroke="url(#bg)" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="#22d3ee"/><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs></svg>
+    </span>
+    <span class="brand-text">小游戏合集<em>全新重制版</em></span>
+  </a>
+  <a class="gh-link" href="https://github.com/skymoon173/mini-game-collection" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="kicker">VANILLA HTML · CANVAS · ZERO DEPENDENCY</p>
+    <h1>打开浏览器，<span>即刻开玩</span></h1>
+    <p class="subtitle">10 个由旧版本 Python 小游戏全面重制的网页游戏。<br>纯原生 HTML / CSS / JavaScript，零依赖、可离线、支持手机触屏。</p>
+    <div class="badges">
+      <span class="badge">10 款游戏</span>
+      <span class="badge">纯前端零依赖</span>
+      <span class="badge">键盘 + 触屏</span>
+      <span class="badge">MIT 许可证</span>
+    </div>
+  </section>
+
+  <nav class="filters" id="filters" aria-label="游戏分类筛选">
+    <button class="chip active" data-cat="all">全部</button>
+    <button class="chip" data-cat="action">动作街机</button>
+    <button class="chip" data-cat="puzzle">益智合成</button>
+    <button class="chip" data-cat="casual">休闲经营</button>
+  </nav>
+
+  <section class="grid" id="game-grid">
+
+    <a class="card" href="games/dodge-blocks/index.html" data-cat="action">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#7c5cff;--c2:#22d3ee">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="19" y="19" width="10" height="10" rx="2" fill="currentColor" stroke="none" opacity=".9"/><rect x="5" y="6" width="7" height="7" rx="1.5"/><rect x="36" y="8" width="6" height="6" rx="1.5"/><rect x="38" y="33" width="8" height="8" rx="1.5"/><path d="M10 34 L15 39 M15 34 L10 39"/></svg>
+      </div>
+      <h2>霓虹躲避</h2>
+      <p>在霓虹方块的四面夹击中极限生存，吃到能量球短暂无敌，难度逐级飙升。</p>
+      <span class="tag">动作 · 生存</span>
+    </a>
+
+    <a class="card" href="games/sky-shooter/index.html" data-cat="action">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#22d3ee;--c2:#7c5cff">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L30 26 L42 32 L28 32 L26 40 L24 36 L22 40 L20 32 L6 32 L18 26 Z"/><path d="M24 14 V34"/><circle cx="24" cy="22" r="2" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <h2>星际射击</h2>
+      <p>驾驶战机迎击三种敌机，拾取双发火力与护盾，连击拿高分，星空层层推进。</p>
+      <span class="tag">飞行 · 射击</span>
+    </a>
+
+    <a class="card" href="games/stickman-runner/index.html" data-cat="action">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#ffb347;--c2:#ff5ca8">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="20" cy="11" r="4"/><path d="M20 15 V28 M20 19 L12 24 M20 19 L29 16 M20 28 L13 40 M20 28 L28 39"/><path d="M33 24 C37 22 39 26 36 29 C40 28 41 32 38 34" stroke="#ffb347"/></svg>
+      </div>
+      <h2>火柴人烈焰跑酷</h2>
+      <p>火柴人二段跳与滑铲穿越障碍，身后烈焰随速度燃烧，昼夜一路狂奔。</p>
+      <span class="tag">跑酷 · 动作</span>
+    </a>
+
+    <a class="card" href="games/snake/index.html" data-cat="action">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#7c5cff;--c2:#34d399">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 34 H24 C30 34 30 26 24 26 H18 C12 26 12 16 20 16 H38"/><circle cx="10" cy="34" r="3.2" fill="currentColor" stroke="none"/><circle cx="40.5" cy="16" r="1.6" fill="currentColor" stroke="none"/><path d="M6 10 H9 M7.5 8.5 V11.5"/></svg>
+      </div>
+      <h2>霓虹贪吃蛇</h2>
+      <p>渐变发光蛇身、限时金色能量块、粒子消散特效，经典玩法的视听升级版。</p>
+      <span class="tag">经典 · 街机</span>
+    </a>
+
+    <a class="card" href="games/iso-snake/index.html" data-cat="puzzle">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#22d3ee;--c2:#ff5ca8">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 7 L41 16 V32 L24 41 L7 32 V16 Z"/><path d="M7 16 L24 25 L41 16 M24 25 V41"/><path d="M15 12 L32.5 21.5" stroke-width="4" opacity=".85"/></svg>
+      </div>
+      <h2>立体贪吃蛇</h2>
+      <p>悬浮于深空的等距 3D 立方体棋盘，Q/E 旋转视角，在立体网格中穿行觅食。</p>
+      <span class="tag">3D · 益智</span>
+    </a>
+
+    <a class="card" href="games/merge-2048/index.html" data-cat="puzzle">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#ff5ca8;--c2:#7c5cff">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="7" y="7" width="14" height="14" rx="3"/><rect x="27" y="7" width="14" height="14" rx="3"/><rect x="7" y="27" width="14" height="14" rx="3"/><path d="M27 27 H41 V41 H27 Z" stroke-width="3.4"/><path d="M31 34 H37 M34 31 V37" stroke-width="2.2"/></svg>
+      </div>
+      <h2>合成数字 2048</h2>
+      <p>丝滑滑动与合并弹跳动画，支持撤销最近 5 步，冲击 2048 后还可继续挑战。</p>
+      <span class="tag">数字 · 益智</span>
+    </a>
+
+    <a class="card" href="games/merge-cats/index.html" data-cat="puzzle">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#ffb347;--c2:#ff5ca8">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14 L15 8 L20 13 M36 14 L33 8 L28 13"/><circle cx="24" cy="26" r="15"/><circle cx="19" cy="24" r="1.8" fill="currentColor" stroke="none"/><circle cx="29" cy="24" r="1.8" fill="currentColor" stroke="none"/><path d="M22 30 Q24 32 26 30"/><path d="M10 27 L6 25 M10 30 L6 31 M38 27 L42 25 M38 30 L42 31"/></svg>
+      </div>
+      <h2>合成猫咪</h2>
+      <p>从奶猫一路合成到猫王，十级猫咪图鉴等你解锁，合成瞬间爱心粒子四溅。</p>
+      <span class="tag">合成 · 休闲</span>
+    </a>
+
+    <a class="card" href="games/sudoku/index.html" data-cat="puzzle">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#7c5cff;--c2:#22d3ee">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="7" y="7" width="34" height="34" rx="3"/><path d="M18.3 7 V41 M29.7 7 V41 M7 18.3 H41 M7 29.7 H41" stroke-width="3.2"/><path d="M12.6 7 V41 M35.4 7 V41 M7 12.6 H41 M7 35.4 H41" opacity=".55"/><circle cx="24" cy="24" r="2.4" fill="currentColor" stroke="none"/><circle cx="12.6" cy="35.4" r="1.8" fill="currentColor" stroke="none"/><circle cx="35.4" cy="12.6" r="1.8" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <h2>霓虹数独</h2>
+      <p>程序生成保证唯一解，三档难度、候选笔记、提示与计时，手机端同样顺手。</p>
+      <span class="tag">逻辑 · 推理</span>
+    </a>
+
+    <a class="card" href="games/farm-tycoon/index.html" data-cat="casual">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#34d399;--c2:#7c5cff">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 38 H42"/><path d="M10 38 V22 C10 15 16 11 24 11 C32 11 38 15 38 22 V38"/><path d="M24 11 V38"/><circle cx="17" cy="24" r="2.4" fill="currentColor" stroke="none"/><circle cx="31" cy="24" r="2.4" fill="currentColor" stroke="none"/><path d="M17 31 C20 28 22 31 17 34 Z" fill="currentColor" stroke="none" opacity=".8"/></svg>
+      </div>
+      <h2>星空农场</h2>
+      <p>播种小麦、玉米与草莓，应对天气行情与随机事件，扩建土地升级设备。</p>
+      <span class="tag">经营 · 养成</span>
+    </a>
+
+    <a class="card" href="games/tarot/index.html" data-cat="casual">
+      <div class="card-glow"></div>
+      <div class="card-icon" style="--c1:#d4af7a;--c2:#7c5cff">
+        <svg viewBox="0 0 48 48" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="24" height="36" rx="3" transform="rotate(8 24 24)"/><path d="M24 13 L26.2 19.8 L33 20 L27.8 24.2 L29.6 31 L24 27.4 L18.4 31 L20.2 24.2 L15 20 L21.8 19.8 Z" stroke-width="1.8"/><circle cx="24" cy="36" r="1.6" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <h2>星空塔罗</h2>
+      <p>22 张大阿卡纳全新绘制，单张日运或过去-现在-未来三牌阵，逐张揭开启示。</p>
+      <span class="tag">占卜 · 休闲</span>
+    </a>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>原版 Python / 早期网页代码保留在仓库各原始目录中作为存档。</p>
+  <p>基于 MIT 许可证开源 · © 2026 Joney Lee（<a href="https://github.com/skymoon173" target="_blank" rel="noopener">skymoon173</a>）</p>
+</footer>
+
+<script src="portal.js"></script>
+</body>
+</html>

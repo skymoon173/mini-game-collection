@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>星空农场</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">星空农场</h1>
+    <div class="top-actions">
+      <a class="btn-ghost" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <!-- 主布局：农田 + 侧边面板 -->
+  <main class="layout">
+
+    <!-- 农田舞台 -->
+    <section class="stage" id="stage">
+      <canvas id="farm"></canvas>
+
+      <!-- 顶部 HUD -->
+      <div class="hud">
+        <div class="chip chip-gold">
+          <span class="k">金币</span>
+          <span class="v" id="hudGold">50</span>
+        </div>
+        <div class="chip">
+          <span class="k">第</span>
+          <span class="v" id="hudDay">1</span>
+          <span class="u">天</span>
+        </div>
+        <div class="chip">
+          <span class="w-icon" id="wIconSun" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15"><path d="M20.2 13.6A8.2 8.2 0 1 1 10.4 3.8 6.6 6.6 0 0 0 20.2 13.6z" fill="#cdd4ff"/></svg>
+          </span>
+          <span class="w-icon hidden" id="wIconRain" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15"><path d="M7 16a4.5 4.5 0 0 1-.4-9 6 6 0 0 1 11.4 1.4A3.8 3.8 0 0 1 17 16H7z" fill="#8fb4ff"/><path d="M8 18l-1 3M12.5 18l-1 3M17 18l-1 3" stroke="#9fc0ff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+          </span>
+          <span class="v v-cyan" id="hudWeather">晴天</span>
+        </div>
+        <div class="chip chip-event hidden" id="hudEvent">
+          <span class="v v-pink">丰收日 ×1.5</span>
+        </div>
+      </div>
+
+      <!-- 一天的时间进度 -->
+      <div class="day-bar"><div class="day-bar-fill" id="dayBarFill"></div></div>
+
+      <!-- 事件提示 -->
+      <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+      <!-- 作物选择弹层 -->
+      <div class="crop-pop hidden" id="cropPop"></div>
+
+      <!-- 首次引导遮罩 -->
+      <div class="overlay hidden" id="guideOverlay">
+        <div class="panel guide-panel">
+          <h2 class="title title-sm">星空农场</h2>
+          <p class="desc">夜幕之下，发光的田地等待你开垦。<br>点击空地选择作物播种，金币会在成熟后回流。</p>
+          <ul class="guide-list">
+            <li>作物经历 种子 · 幼苗 · 成长 · 成熟 四个阶段</li>
+            <li>成熟后头顶出现金色标记，点击即可收获</li>
+            <li>雨天自动加速生长，红色害虫需点击除虫</li>
+            <li>每日行情有涨有跌，丰收日售价翻倍半</li>
+          </ul>
+          <button id="btnGuide" class="btn-primary" type="button">开垦你的第一块地</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 侧边面板 -->
+    <aside class="sidebar">
+
+      <!-- 今日行情 -->
+      <section class="glass-panel">
+        <h2 class="panel-title">
+          <span class="title-dot dot-cyan"></span>今日行情
+        </h2>
+        <div class="goods-list" id="marketList"></div>
+        <div class="panel-foot" id="marketFoot"></div>
+      </section>
+
+      <!-- 农场商店 -->
+      <section class="glass-panel">
+        <h2 class="panel-title">
+          <span class="title-dot dot-purple"></span>农场商店
+        </h2>
+        <div class="shop-list" id="shopList"></div>
+      </section>
+
+      <!-- 今日目标 -->
+      <section class="glass-panel">
+        <h2 class="panel-title">
+          <span class="title-dot dot-amber"></span>今日目标
+        </h2>
+        <div class="goal-head">
+          <span>累计收获赚得 <b id="goalNow">0</b> / <b id="goalTarget">120</b> 金币</span>
+          <span class="goal-reward">奖励 +<b id="goalReward">30</b></span>
+        </div>
+        <div class="progress"><div class="progress-fill" id="goalFill"></div></div>
+        <div class="goal-status" id="goalStatus">目标进行中</div>
+        <button id="btnRestart" class="btn-restart" type="button">清空存档 · 重新开始</button>
+      </section>
+
+    </aside>
+  </main>
+
+  <!-- 底部操作提示 -->
+  <footer class="tips">点击空地播种 · 成熟后点击金色标记收获 · 点击红色害虫除虫 · 每 60 秒进入新的一天，雨天生长加速 · 进度自动保存</footer>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+/* ============================================
+   霓虹贪吃蛇 —— 样式表
+   纯 CSS 实现，零外部依赖、零外部字体
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #e6e9ff;
+  background: radial-gradient(circle at 50% 30%, #171a3a, #0b0e20);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: min(620px, 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  user-select: none;
+}
+
+/* ---------- 玻璃面板通用规范 ---------- */
+.panel {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 主题色文字 */
+.c-cyan {
+  color: #22d3ee;
+}
+.c-purple {
+  color: #9d88ff;
+}
+.c-gold {
+  color: #ffb347;
+}
+
+/* ---------- 顶部栏 ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 4px 14px;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #22d3ee, #7c5cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(124, 92, 255, 0.45));
+}
+
+.back-link {
+  color: #aab0d8;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-link:hover {
+  color: #ffffff;
+  border-color: rgba(124, 92, 255, 0.8);
+  box-shadow: 0 0 16px rgba(124, 92, 255, 0.45);
+}
+
+/* ---------- 舞台 ---------- */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- 数据栏 ---------- */
+.hud {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  padding: 10px 18px;
+  gap: 8px;
+}
+
+.hud-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #8b91bd;
+}
+
+.hud-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.ghost-btn {
+  flex: 0 0 auto;
+  margin-left: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #cfd4ff;
+  background: rgba(124, 92, 255, 0.16);
+  border: 1px solid rgba(124, 92, 255, 0.55);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.ghost-btn:hover {
+  color: #ffffff;
+  background: rgba(124, 92, 255, 0.32);
+  box-shadow: 0 0 14px rgba(124, 92, 255, 0.5);
+}
+
+/* ---------- Canvas 区域 ---------- */
+.canvas-wrap {
+  position: relative;
+  width: min(100%, 560px, calc(100vh - 218px));
+  aspect-ratio: 1 / 1;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: rgba(9, 11, 26, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 50px rgba(124, 92, 255, 0.28),
+    0 0 120px rgba(34, 211, 238, 0.10),
+    inset 0 0 40px rgba(11, 14, 32, 0.6);
+  touch-action: none;
+}
+
+/* ---------- 遮罩层 ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(8, 10, 24, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 5;
+  animation: overlay-in 0.28s ease both;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay-panel {
+  width: 100%;
+  max-width: 380px;
+  padding: 30px 28px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(124, 92, 255, 0.25);
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #22d3ee, #7c5cff, #ff5ca8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 16px rgba(124, 92, 255, 0.5));
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #cfd4ff;
+  text-shadow: 0 0 16px rgba(124, 92, 255, 0.7);
+}
+
+.intro {
+  margin: 18px 0 24px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: #b9bfe6;
+}
+
+.result-row {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #b9bfe6;
+}
+
+.result-row .hud-value,
+.result-row span {
+  font-size: 22px;
+  margin-left: 6px;
+}
+
+.record-badge {
+  margin: 16px auto 4px;
+  width: fit-content;
+  padding: 6px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #201503;
+  background: linear-gradient(90deg, #ffd47a, #ffb347);
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(255, 179, 71, 0.75);
+  animation: badge-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes badge-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+/* ---------- 主按钮 ---------- */
+.btn-primary {
+  margin-top: 6px;
+  padding: 12px 38px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c5cff, #5b8dff);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 22px rgba(124, 92, 255, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 0 32px rgba(124, 92, 255, 0.8), 0 0 60px rgba(34, 211, 238, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ---------- 底部说明 ---------- */
+.tips {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #8b91bd;
+  padding: 14px 4px 18px;
+}
+
+/* ---------- 窄屏适配 ---------- */
+@media (max-width: 420px) {
+  .brand {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .back-link {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+  .hud-value {
+    font-size: 19px;
+  }
+
+  .title {
+    font-size: 25px;
+  }
+
+  .tips {
+    font-size: 12px;
+  }
+}

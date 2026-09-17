@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级数独游戏 - Sudoku Master</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="stars" id="stars"></div>
+    </div>
+
+    <div class="container">
+        <header class="game-header">
+            <h1 class="game-title">
+                <i class="fas fa-brain"></i>
+                Sudoku Master
+                <span class="subtitle">高级数独游戏</span>
+            </h1>
+        </header>
+
+        <div class="game-controls">
+            <div class="control-section">
+                <label class="control-label">
+                    <i class="fas fa-chart-line"></i> 难度等级
+                </label>
+                <div class="difficulty-buttons" id="difficulty-buttons">
+                    <button class="btn-difficulty active" data-difficulty="easy">
+                        <i class="fas fa-baby"></i> 简单
+                    </button>
+                    <button class="btn-difficulty" data-difficulty="medium">
+                        <i class="fas fa-user"></i> 中等
+                    </button>
+                    <button class="btn-difficulty" data-difficulty="hard">
+                        <i class="fas fa-skull"></i> 困难
+                    </button>
+                    <button class="btn-difficulty" data-difficulty="expert">
+                        <i class="fas fa-fire"></i> 专家
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <label class="control-label">
+                    <i class="fas fa-gamepad"></i> 游戏模式
+                </label>
+                <div class="mode-buttons" id="mode-buttons">
+                    <button class="btn-mode active" data-mode="classic">
+                        <i class="fas fa-puzzle-piece"></i> 经典
+                    </button>
+                    <button class="btn-mode" data-mode="timed">
+                        <i class="fas fa-clock"></i> 计时
+                    </button>
+                    <button class="btn-mode" data-mode="zen">
+                        <i class="fas fa-peace"></i> 禅境
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-stats" id="game-stats">
+            <div class="stat-item">
+                <span class="stat-label">时间</span>
+                <span class="stat-value" id="timer">00:00</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">提示</span>
+                <span class="stat-value" id="hints-used">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">错误</span>
+                <span class="stat-value" id="errors">0</span>
+            </div>
+            <div class="stat-item stats-btn">
+                <button class="btn-stats" id="show-stats">
+                    <i class="fas fa-chart-bar"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="sudoku-container">
+            <div class="grid-container">
+                <div class="grid" id="sudoku-grid">
+                    <!-- 81 cells for the 9x9 Sudoku grid -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-section">
+            <div class="tools-toolbar" id="tools-toolbar">
+                <button class="tool-btn" id="btn-notes" title="笔记模式">
+                    <i class="fas fa-edit"></i>
+                    <span class="tool-label">笔记</span>
+                </button>
+                <button class="tool-btn" id="btn-hint" title="获取提示">
+                    <i class="fas fa-lightbulb"></i>
+                    <span class="tool-label">提示</span>
+                </button>
+                <button class="tool-btn" id="btn-undo" title="撤销">
+                    <i class="fas fa-undo"></i>
+                    <span class="tool-label">撤销</span>
+                </button>
+                <button class="tool-btn" id="btn-redo" title="重做">
+                    <i class="fas fa-redo"></i>
+                    <span class="tool-label">重做</span>
+                </button>
+                <button class="tool-btn" id="btn-clear" title="清除单元格">
+                    <i class="fas fa-eraser"></i>
+                    <span class="tool-label">清除</span>
+                </button>
+                <button class="tool-btn" id="btn-auto-fill" title="自动填充候选数">
+                    <i class="fas fa-magic"></i>
+                    <span class="tool-label">候选</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-primary" id="btn-new-game">
+                <i class="fas fa-plus"></i>
+                新游戏
+            </button>
+            <button class="btn-secondary" id="btn-validate">
+                <i class="fas fa-check-circle"></i>
+                验证
+            </button>
+            <button class="btn-secondary" id="btn-solve">
+                <i class="fas fa-robot"></i>
+                自动求解
+            </button>
+            <button class="btn-secondary" id="btn-show-steps">
+                <i class="fas fa-route"></i>
+                显示步骤
+            </button>
+        </div>
+
+        <!-- Thinking Chain Panel -->
+        <div class="thinking-panel" id="thinking-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-brain"></i> 思考链</h3>
+                <button class="panel-close" id="close-thinking">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="thinking-steps" id="thinking-steps">
+                <!-- Thinking steps will be added here -->
+            </div>
+        </div>
+
+        <!-- Stats Modal -->
+        <div class="modal" id="stats-modal">
+            <div class="modal-content stats-modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-chart-bar"></i> 游戏统计</h3>
+                    <button class="modal-close" id="close-stats">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="stats-overview" id="stats-overview">
+                        <!-- Stats will be populated by JavaScript -->
+                    </div>
+                    <div class="stats-actions">
+                        <button class="btn-secondary" id="reset-stats">
+                            <i class="fas fa-trash"></i>
+                            重置统计
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal" id="settings-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cog"></i> 设置</h3>
+                    <button class="modal-close" id="close-settings">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <h4>音效</h4>
+                        <label class="setting-item">
+                            <input type="checkbox" id="sound-enabled" checked>
+                            <span class="checkmark"></span>
+                            启用音效
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <h4>视觉效果</h4>
+                        <label class="setting-item">
+                            <input type="checkbox" id="animations-enabled" checked>
+                            <span class="checkmark"></span>
+                            启用动画
+                        </label>
+                        <label class="setting-item">
+                            <input type="checkbox" id="highlight-same-numbers" checked>
+                            <span class="checkmark"></span>
+                            高亮相同数字
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal" id="success-modal">
+            <div class="modal-content success-content">
+                <div class="success-animation">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2>恭喜完成！</h2>
+                <div class="success-stats" id="success-stats">
+                    <div class="success-stat">
+                        <span class="stat-label">用时</span>
+                        <span class="stat-value" id="completion-time">-</span>
+                    </div>
+                    <div class="success-stat">
+                        <span class="stat-label">提示使用</span>
+                        <span class="stat-value" id="completion-hints">-</span>
+                    </div>
+                    <div class="success-stat">
+                        <span class="stat-label">错误次数</span>
+                        <span class="stat-value" id="completion-errors">-</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="play-again">再玩一局</button>
+            </div>
+        </div>
+
+        <button class="settings-btn" id="open-settings">
+            <i class="fas fa-cog"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Debug script - remove in production -->
+    <script>
+        // Add some debugging to ensure cells are created correctly
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                console.log('Grid created with', document.querySelectorAll('.cell').length, 'cells');
+                const firstCell = document.querySelector('.cell');
+                if (firstCell) {
+                    console.log('First cell structure:', firstCell.outerHTML);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

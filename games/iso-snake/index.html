@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>立体贪吃蛇</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="brand">立体贪吃蛇</h1>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 游戏舞台 -->
+  <main class="stage" id="stage">
+    <canvas id="game" aria-label="立体贪吃蛇游戏画布"></canvas>
+
+    <!-- 抬头显示 -->
+    <div class="hud">
+      <div class="hud-chip"><span class="hud-label">长度</span><span class="hud-value" id="hudLen">3</span></div>
+      <div class="hud-chip"><span class="hud-label">分数</span><span class="hud-value" id="hudScore">0</span></div>
+      <div class="hud-chip"><span class="hud-label">最高分</span><span class="hud-value" id="hudBest">0</span></div>
+      <button class="pause-btn" id="btnPause" type="button">暂停</button>
+    </div>
+
+    <!-- 开始遮罩 -->
+    <section class="overlay show" id="startOverlay">
+      <div class="panel">
+        <h2 class="panel-title">立体贪吃蛇</h2>
+        <p class="panel-desc">在悬浮于深空的等距立方体平台上吞食发光晶体，蛇身会越来越长、速度越来越快。开局蛇会原地等待，按下方向键后才开始移动；按 Q / E 可旋转视角，切勿从平台边缘坠落。</p>
+        <div class="key-hints">
+          <span>方向键 / WASD 移动</span>
+          <span>Q / E 旋转视角</span>
+          <span>空格 暂停</span>
+        </div>
+        <button class="main-btn" id="btnStart" type="button">开始游戏</button>
+      </div>
+    </section>
+
+    <!-- 暂停遮罩 -->
+    <section class="overlay" id="pauseOverlay">
+      <div class="panel panel-small">
+        <h2 class="panel-title">已暂停</h2>
+        <p class="panel-desc">深呼吸，深空不会跑掉。</p>
+        <button class="main-btn" id="btnResume" type="button">继续游戏</button>
+      </div>
+    </section>
+
+    <!-- 结束遮罩 -->
+    <section class="overlay" id="endOverlay">
+      <div class="panel panel-small">
+        <h2 class="panel-title">游戏结束</h2>
+        <p class="record-tip" id="recordTip">新纪录！</p>
+        <div class="result-grid">
+          <div class="result-cell"><span class="hud-label">本局长度</span><strong id="endLen">3</strong></div>
+          <div class="result-cell"><span class="hud-label">本局分数</span><strong id="endScore">0</strong></div>
+          <div class="result-cell result-wide"><span class="hud-label">历史最高</span><strong id="endBest">0</strong></div>
+        </div>
+        <button class="main-btn" id="btnAgain" type="button">再玩一次</button>
+      </div>
+    </section>
+
+    <!-- 移动端触控按钮 -->
+    <div class="touch-controls" id="touchControls">
+      <div class="dpad">
+        <button class="tbtn t-up" type="button" data-dir="up" aria-label="向上移动"><i class="arrow arrow-up"></i></button>
+        <button class="tbtn t-left" type="button" data-dir="left" aria-label="向左移动"><i class="arrow arrow-left"></i></button>
+        <button class="tbtn t-right" type="button" data-dir="right" aria-label="向右移动"><i class="arrow arrow-right"></i></button>
+        <button class="tbtn t-down" type="button" data-dir="down" aria-label="向下移动"><i class="arrow arrow-down"></i></button>
+      </div>
+      <div class="rotate-pad">
+        <button class="rbtn" type="button" data-rot="ccw" aria-label="逆时针旋转平台">
+          <i class="arrow arrow-ccw"></i><span>逆时针 Q</span>
+        </button>
+        <button class="rbtn" type="button" data-rot="cw" aria-label="顺时针旋转平台">
+          <i class="arrow arrow-cw"></i><span>顺时针 E</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 底部说明 -->
+    <footer class="foot-tip">方向键移动 · Q/E 旋转视角 · 空格暂停 · 不要从边缘坠落</footer>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

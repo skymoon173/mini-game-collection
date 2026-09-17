@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#667eea",
+    "navigationBarTitleText": "数独大师",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f8f9fa"
+  }
+}

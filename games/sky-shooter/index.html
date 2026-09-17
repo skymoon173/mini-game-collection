@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>星际射击</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">星际射击</h1>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 游戏舞台 -->
+  <main class="stage" id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- 抬头显示 -->
+    <div class="hud">
+      <div class="hud-left">
+        <div class="hud-item">分数<span id="scoreVal">0</span></div>
+        <div class="hud-item small">最高<span id="bestVal">0</span></div>
+      </div>
+      <div class="hud-center">
+        <div class="combo-tag hidden" id="comboTag"></div>
+      </div>
+      <div class="hud-right">
+        <div class="power-chip double hidden" id="chipDouble">双发 <b id="doubleTime">8.0</b>s</div>
+        <div class="power-chip shield hidden" id="chipShield">护盾</div>
+        <div class="lives" id="lives" title="剩余生命"></div>
+        <button class="icon-btn" id="pauseBtn" type="button">暂停</button>
+      </div>
+    </div>
+
+    <!-- 开始遮罩 -->
+    <div class="overlay" id="startOverlay">
+      <section class="panel">
+        <h2 class="panel-title">星际射击</h2>
+        <ul class="intro">
+          <li>驾驶战机迎击敌机编队，3 条生命挑战最高分</li>
+          <li>敌机三种：直线俯冲机、左右蛇形机、重装大型机</li>
+          <li>击毁大型机有几率掉落双发弹药与能量护盾</li>
+          <li>连续击毁提升连击倍率，被击中则连击清零</li>
+        </ul>
+        <button class="btn primary" id="startBtn" type="button">开始游戏</button>
+      </section>
+    </div>
+
+    <!-- 暂停遮罩 -->
+    <div class="overlay hidden" id="pauseOverlay">
+      <section class="panel">
+        <h2 class="panel-title">已暂停</h2>
+        <p class="tip">按 Esc 键或点击下方按钮继续战斗</p>
+        <button class="btn primary" id="resumeBtn" type="button">继续游戏</button>
+      </section>
+    </div>
+
+    <!-- 结束遮罩 -->
+    <div class="overlay hidden" id="overOverlay">
+      <section class="panel">
+        <h2 class="panel-title">游戏结束</h2>
+        <div class="result">
+          <div class="result-row">本次得分<span id="finalScore">0</span></div>
+          <div class="result-row">历史最高<span id="finalBest">0</span></div>
+        </div>
+        <p class="record hidden" id="recordTip">恭喜突破最高纪录！</p>
+        <button class="btn primary" id="againBtn" type="button">再玩一次</button>
+      </section>
+    </div>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="footer">
+    方向键 / WASD 移动 · 空格射击（按住连发） · Esc 暂停 · 道具：双发 / 护盾 · 移动端触屏拖动战机自动开火
+  </footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

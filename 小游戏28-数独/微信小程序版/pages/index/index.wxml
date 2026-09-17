@@ -1,0 +1,235 @@
+<view class="container">
+  <!-- 顶部工具栏 -->
+  <view class="top-toolbar">
+    <view class="toolbar-left">
+      <picker class="difficulty-picker" mode="selector" range="{{difficultyOptions}}" value="{{difficultyIndex}}" bindchange="onDifficultyChange">
+        <view class="picker-display">{{difficultyOptions[difficultyIndex]}}</view>
+      </picker>
+      <picker class="mode-picker" mode="selector" range="{{modeOptions}}" value="{{modeIndex}}" bindchange="onModeChange">
+        <view class="picker-display">{{modeOptions[modeIndex]}}</view>
+      </picker>
+    </view>
+    <view class="toolbar-right">
+      <button class="toolbar-btn" bindtap="showStats">
+        <text class="icon">📊</text>
+      </button>
+      <button class="toolbar-btn" bindtap="toggleNotesMode">
+        <text class="icon {{notesMode ? 'active' : ''}}">📝</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 游戏状态栏 -->
+  <view class="game-status">
+    <view class="status-item">
+      <text class="status-label">时间</text>
+      <text class="status-value">{{timer}}</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">提示</text>
+      <text class="status-value">{{hintsUsed}}</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">错误</text>
+      <text class="status-value">{{errors}}</text>
+    </view>
+  </view>
+
+  <!-- 数独网格 -->
+  <view class="sudoku-container">
+    <view class="grid-container">
+      <view class="grid">
+        <view
+          wx:for="{{cells}}"
+          wx:key="index"
+          class="cell {{item.isSelected ? 'selected' : ''}} {{item.isReadonly ? 'readonly' : ''}} {{item.isError ? 'error' : ''}} {{item.isHighlighted ? 'highlighted' : ''}} {{item.isSameNumber ? 'same-number' : ''}}"
+          data-index="{{index}}"
+          bindtap="selectCell">
+          <input
+            wx:if="{{item.showInput}}"
+            class="cell-input"
+            value="{{item.value}}"
+            maxlength="1"
+            bindinput="handleCellInput"
+            bindblur="handleCellBlur"
+            data-index="{{index}}" />
+          <view wx:if="{{item.showNotes}}" class="notes">
+            <text
+              wx:for="{{item.notes}}"
+              wx:for-item="note"
+              wx:key="*this"
+              class="note-text {{note > 0 ? 'active' : ''}}">
+              {{note > 0 ? note : ''}}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 加载遮罩 -->
+      <view wx:if="{{isLoading}}" class="loading-overlay">
+        <view class="loading-spinner">
+          <text class="icon">🔄</text>
+          <view>生成数独中...</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部工具栏 -->
+  <view class="bottom-toolbar">
+    <button class="bottom-btn" bindtap="undo">
+      <text class="icon">↶</text>
+    </button>
+    <button class="bottom-btn" bindtap="getHint">
+      <text class="icon">💡</text>
+    </button>
+    <button class="bottom-btn primary" bindtap="startNewGame">
+      <text class="icon">🎮</text>
+    </button>
+    <button class="bottom-btn" bindtap="validateBoard">
+      <text class="icon">✅</text>
+    </button>
+    <button class="bottom-btn" bindtap="clearCell">
+      <text class="icon">🗑️</text>
+    </button>
+  </view>
+
+        <!-- 调试按钮（开发模式下显示） -->
+        <view wx:if="{{debugMode}}" class="debug-buttons">
+            <button class="btn-secondary" bindtap="testFunction">
+                测试功能
+            </button>
+            <button class="btn-secondary" bindtap="manualInit">
+                手动初始化
+            </button>
+            <button class="btn-secondary" bindtap="clearStorage">
+                清除缓存
+            </button>
+        </view>
+
+  <!-- 思考链面板 -->
+  <view class="thinking-panel {{showThinkingPanel ? 'open' : ''}}">
+    <view class="panel-header">
+      <view class="panel-title">
+        <text class="icon">🧠</text> 思考链
+      </view>
+      <button class="panel-close" bindtap="closeThinkingChain">
+        <text class="icon">✕</text>
+      </button>
+    </view>
+    <scroll-view class="thinking-steps" scroll-y>
+      <view
+        wx:for="{{thinkingSteps}}"
+        wx:key="*this"
+        class="thinking-step">
+        <view class="step-title">{{item.title}}</view>
+        <view class="step-description">{{item.description}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 设置模态框 -->
+  <view class="modal {{showSettingsModal ? 'open' : ''}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">
+          <text class="icon">⚙️</text> 设置
+        </view>
+        <button class="modal-close" bindtap="closeSettings">
+          <text class="icon">✕</text>
+        </button>
+      </view>
+      <view class="modal-body">
+        <view class="setting-group">
+          <view class="setting-title">音效</view>
+          <switch checked="{{settings.soundEnabled}}" bindchange="onSoundChange" />
+        </view>
+        <view class="setting-group">
+          <view class="setting-title">动画效果</view>
+          <switch checked="{{settings.animationsEnabled}}" bindchange="onAnimationChange" />
+        </view>
+        <view class="setting-group">
+          <view class="setting-title">高亮相同数字</view>
+          <switch checked="{{settings.highlightSameNumbers}}" bindchange="onHighlightChange" />
+        </view>
+        <view class="setting-actions">
+          <button class="btn-secondary" bindtap="showThinkingChain">
+            <text class="icon">🧠</text>
+            思考链
+          </button>
+          <button class="btn-secondary" bindtap="solveCompletely">
+            <text class="icon">🤖</text>
+            自动求解
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计模态框 -->
+  <view class="modal {{showStatsModal ? 'open' : ''}}">
+    <view class="modal-content stats-modal-content">
+      <view class="modal-header">
+        <view class="modal-title">
+          <text class="icon">📊</text> 游戏统计
+        </view>
+        <button class="modal-close" bindtap="closeStats">
+          <text class="icon">✕</text>
+        </button>
+      </view>
+      <view class="modal-body">
+        <view class="stats-overview" wx:for="{{statsOverview}}" wx:key="*this">
+          <view class="stats-category">
+            <view class="category-title">
+              <text class="icon">📈</text> {{item.difficultyName}}难度
+            </view>
+            <view class="stats-grid">
+              <view
+                wx:for="{{item.stats}}"
+                wx:key="*this"
+                class="stat-card">
+                <view class="stat-label">{{item.modeName}}</view>
+                <view class="stat-value">{{item.gamesPlayed}}</view>
+                <view class="stat-unit">场游戏</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view wx:if="{{!statsOverview || statsOverview.length === 0}}" class="no-stats">
+          暂无游戏统计数据
+        </view>
+        <view class="stats-actions">
+          <button class="btn-secondary" bindtap="resetStats">
+            <text class="icon">🗑️</text>
+            重置统计
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成功模态框 -->
+  <view class="modal {{showSuccessModal ? 'open' : ''}}">
+    <view class="modal-content success-content">
+      <view class="success-animation">
+        <text class="icon">🏆</text>
+      </view>
+      <view class="success-title">恭喜完成！</view>
+      <view class="success-stats">
+        <view class="success-stat">
+          <view class="stat-label">用时</view>
+          <view class="stat-value">{{completionTime}}</view>
+        </view>
+        <view class="success-stat">
+          <view class="stat-label">提示使用</view>
+          <view class="stat-value">{{completionHints}}</view>
+        </view>
+        <view class="success-stat">
+          <view class="stat-label">错误次数</view>
+          <view class="stat-value">{{completionErrors}}</view>
+        </view>
+      </view>
+      <button class="btn-primary" bindtap="playAgain">再玩一局</button>
+    </view>
+  </view>
+</view>

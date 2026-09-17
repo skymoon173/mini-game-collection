@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>霓虹数独</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏：左标题，右返回门户 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">独</span>
+      <h1 class="brand-title">霓虹数独</h1>
+    </div>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <main class="stage">
+
+    <!-- 计时 / 难度 / 错误数 -->
+    <section class="hud panel">
+      <div class="stat stat-time">
+        <span class="stat-label">计时</span>
+        <span class="stat-value" id="timeText">00:00</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">难度</span>
+        <span class="stat-value" id="diffText">--</span>
+      </div>
+      <div class="stat stat-errors">
+        <span class="stat-label">错误</span>
+        <span class="stat-value" id="errorText">0/3</span>
+      </div>
+    </section>
+
+    <!-- 9x9 棋盘（含暂停 / 生成中遮挡层） -->
+    <section class="board-wrap">
+      <div class="board" id="board" aria-label="数独棋盘"></div>
+
+      <div class="cover hidden" id="loadingCover">
+        <div class="cover-inner">
+          <div class="cover-title">正在生成数独题目</div>
+          <div class="cover-sub">校验唯一解，请稍候…</div>
+        </div>
+      </div>
+
+      <div class="cover hidden" id="pauseCover">
+        <div class="cover-inner">
+          <div class="cover-title">已暂停</div>
+          <div class="cover-sub">棋盘已遮挡，休息一下</div>
+          <button class="btn btn-primary cover-btn" id="pauseResumeBtn" type="button">继续游戏</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 数字键与功能按钮 -->
+    <section class="controls panel">
+      <div class="numpad" id="numPad">
+        <button class="num-btn" type="button" data-num="1">1</button>
+        <button class="num-btn" type="button" data-num="2">2</button>
+        <button class="num-btn" type="button" data-num="3">3</button>
+        <button class="num-btn" type="button" data-num="4">4</button>
+        <button class="num-btn" type="button" data-num="5">5</button>
+        <button class="num-btn" type="button" data-num="6">6</button>
+        <button class="num-btn" type="button" data-num="7">7</button>
+        <button class="num-btn" type="button" data-num="8">8</button>
+        <button class="num-btn" type="button" data-num="9">9</button>
+        <button class="num-btn num-erase" id="eraseBtn" type="button">擦除</button>
+      </div>
+      <div class="tools">
+        <button class="tool" id="hintBtn" type="button">提示<span class="tool-badge" id="hintBadge">3</span></button>
+        <button class="tool" id="noteBtn" type="button">笔记<span class="tool-badge">N</span></button>
+        <button class="tool" id="undoBtn" type="button">撤销</button>
+        <button class="tool" id="pauseBtn" type="button">暂停</button>
+        <button class="tool tool-new" id="newBtn" type="button">新游戏</button>
+      </div>
+    </section>
+
+    <!-- 底部说明 -->
+    <footer class="tips">
+      数字键 1-9 填写，Backspace 擦除，方向键移动，N 切换笔记模式<br>
+      笔记模式下再次点击数字可取消候选；填错 3 次挑战失败
+    </footer>
+  </main>
+</div>
+
+<!-- 难度选择遮罩 -->
+<div class="overlay" id="startOverlay">
+  <div class="dialog panel">
+    <h2 class="dialog-title">霓虹数独</h2>
+    <p class="dialog-sub">回溯算法实时生成，每题均保证唯一解</p>
+
+    <div class="diff-list">
+      <button class="diff-card" type="button" data-diff="easy">
+        <span class="diff-info">
+          <span class="diff-name">简单</span>
+          <span class="diff-meta">已知 38-42 格 · 轻松入门</span>
+        </span>
+        <span class="diff-best">最佳 <b id="best-easy">--:--</b></span>
+      </button>
+      <button class="diff-card" type="button" data-diff="normal">
+        <span class="diff-info">
+          <span class="diff-name">普通</span>
+          <span class="diff-meta">已知 30-34 格 · 小有挑战</span>
+        </span>
+        <span class="diff-best">最佳 <b id="best-normal">--:--</b></span>
+      </button>
+      <button class="diff-card" type="button" data-diff="hard">
+        <span class="diff-info">
+          <span class="diff-name">困难</span>
+          <span class="diff-meta">已知 24-28 格 · 高手专属</span>
+        </span>
+        <span class="diff-best">最佳 <b id="best-hard">--:--</b></span>
+      </button>
+    </div>
+
+    <label class="option-line">
+      <input type="checkbox" id="continueChk">
+      <span>错误达到 3 次后允许继续游戏（不弹出失败遮罩）</span>
+    </label>
+  </div>
+</div>
+
+<!-- 完成庆祝遮罩 -->
+<div class="overlay hidden" id="winOverlay">
+  <div class="dialog panel">
+    <h2 class="dialog-title win-title">挑战成功</h2>
+    <p class="dialog-sub" id="winRecord">太棒了，全部填写正确！</p>
+    <div class="result-time">
+      <span class="result-label">本局用时</span>
+      <span class="result-value" id="winTime">00:00</span>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-primary" id="winAgainBtn" type="button">再来一局</button>
+      <button class="btn btn-ghost" id="winChooseBtn" type="button">选择难度</button>
+    </div>
+  </div>
+</div>
+
+<!-- 挑战失败遮罩 -->
+<div class="overlay hidden" id="failOverlay">
+  <div class="dialog panel">
+    <h2 class="dialog-title fail-title">挑战失败</h2>
+    <p class="dialog-sub">错误次数已达到 3 次上限</p>
+    <div class="dialog-actions">
+      <button class="btn btn-primary" id="failRetryBtn" type="button">重新开始</button>
+      <button class="btn btn-ghost" id="failChooseBtn" type="button">选择难度</button>
+      <button class="btn btn-ghost hidden" id="failContinueBtn" type="button">继续游戏</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

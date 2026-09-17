@@ -1,0 +1,706 @@
+/* pages/index/index.wxss */
+
+/* 容器布局 */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* 顶部工具栏 */
+.top-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20rpx);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-left {
+  display: flex;
+  gap: 20rpx;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 10rpx;
+}
+
+.picker-display {
+  padding: 12rpx 24rpx;
+  background: var(--bg-secondary);
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  min-width: 120rpx;
+  text-align: center;
+}
+
+.toolbar-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.toolbar-btn:active {
+  transform: scale(0.9);
+  box-shadow: var(--shadow-hover);
+}
+
+.toolbar-btn .icon.active {
+  color: var(--primary-color);
+}
+
+/* 游戏控制 */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 80rpx;
+  margin-bottom: 60rpx;
+  flex-wrap: wrap;
+}
+
+.control-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30rpx;
+}
+
+.control-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.difficulty-buttons, .mode-buttons {
+  display: flex;
+  gap: 20rpx;
+  flex-wrap: wrap;
+}
+
+.btn-difficulty, .btn-mode {
+  padding: 24rpx 40rpx;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 26rpx;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+}
+
+.btn-difficulty:active, .btn-mode:active {
+  transform: scale(0.95);
+}
+
+.btn-difficulty.active, .btn-mode.active {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+/* 游戏状态栏 */
+.game-status {
+  display: flex;
+  justify-content: center;
+  gap: 40rpx;
+  padding: 20rpx;
+  background: var(--bg-secondary);
+  margin: 0 30rpx 20rpx 30rpx;
+  border-radius: 16rpx;
+  box-shadow: var(--shadow);
+}
+
+.status-item {
+  text-align: center;
+  flex: 1;
+  max-width: 200rpx;
+}
+
+.status-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+  font-weight: 500;
+}
+
+.status-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* 底部工具栏 */
+.bottom-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30rpx;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20rpx);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.bottom-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.bottom-btn:active {
+  transform: scale(0.9);
+  box-shadow: var(--shadow-hover);
+}
+
+.bottom-btn.primary {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: white;
+}
+
+/* 数独网格 */
+.sudoku-container {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  padding: 0 30rpx 120rpx 30rpx; /* 为底部工具栏留出空间 */
+  overflow-y: auto;
+}
+
+.grid-container {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 40rpx;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 4rpx;
+  background: #1a1a1a;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  position: relative;
+}
+
+.cell {
+  width: 100rpx;
+  height: 100rpx;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 36rpx;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  border-radius: 8rpx;
+  transition: var(--transition);
+  position: relative;
+  box-shadow: inset 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell:active {
+  transform: scale(0.95);
+}
+
+.cell.selected {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 0 0 6rpx rgba(102, 126, 234, 0.3);
+}
+
+.cell.readonly {
+  background: #e9ecef;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.cell.error {
+  background: linear-gradient(135deg, var(--warning-gradient-start), var(--warning-gradient-end));
+  color: white;
+  animation: shake 0.5s ease-in-out;
+}
+
+.cell.highlighted {
+  background: linear-gradient(135deg, var(--success-gradient-start), var(--success-gradient-end));
+  color: white;
+  box-shadow: 0 0 0 4rpx rgba(79, 172, 254, 0.5);
+}
+
+.cell.same-number {
+  background: rgba(102, 126, 234, 0.1);
+  border: 2rpx solid rgba(102, 126, 234, 0.3);
+}
+
+.cell-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 36rpx;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.cell.readonly .cell-input {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 网格边框 */
+.cell:nth-child(3n+3) {
+  border-right: 6rpx solid #000;
+}
+
+.cell:nth-child(27n+1),
+.cell:nth-child(27n+2),
+.cell:nth-child(27n+3),
+.cell:nth-child(27n+10),
+.cell:nth-child(27n+11),
+.cell:nth-child(27n+12),
+.cell:nth-child(27n+19),
+.cell:nth-child(27n+20),
+.cell:nth-child(27n+21) {
+  border-bottom: 6rpx solid #000;
+}
+
+/* 笔记样式 */
+.notes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  font-size: 22rpx;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.note-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 22rpx;
+  font-weight: 500;
+  line-height: 1;
+  min-height: 24rpx;
+}
+
+.note-text.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* 设置样式 */
+.setting-group {
+  margin-bottom: 40rpx;
+}
+
+.setting-title {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  margin-bottom: 20rpx;
+  font-weight: 600;
+}
+
+.setting-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 40rpx;
+}
+
+/* 思考链面板 */
+.thinking-panel {
+  position: fixed;
+  top: 40rpx;
+  right: 40rpx;
+  width: 700rpx;
+  max-height: 70vh;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  transform: translateX(800rpx);
+  transition: var(--transition);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.thinking-panel.open {
+  transform: translateX(0);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: white;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.panel-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32rpx;
+  padding: 10rpx;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.panel-close:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.thinking-steps {
+  max-height: calc(70vh - 160rpx);
+  padding: 40rpx;
+}
+
+.thinking-step {
+  background: var(--bg-primary);
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  border-left: 8rpx solid var(--primary-color);
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.step-title {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+
+.step-description {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 统计样式 */
+.stats-modal-content {
+  max-width: 600rpx;
+}
+
+.stats-overview {
+  margin-bottom: 60rpx;
+}
+
+.stats-category {
+  margin-bottom: 50rpx;
+  padding: 40rpx;
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.category-title {
+  margin-bottom: 30rpx;
+  color: var(--primary-color);
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240rpx, 1fr));
+  gap: 30rpx;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 40rpx;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.stat-card .stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 8rpx;
+}
+
+.stat-card .stat-unit {
+  font-size: 20rpx;
+  color: var(--text-secondary);
+}
+
+.no-stats {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 28rpx;
+  padding: 80rpx 40rpx;
+}
+
+.stats-actions {
+  text-align: center;
+  padding-top: 40rpx;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+/* 成功模态框 */
+.success-content {
+  text-align: center;
+  padding: 80rpx;
+}
+
+.success-animation {
+  font-size: 120rpx;
+  color: #ffd700;
+  margin-bottom: 40rpx;
+  animation: bounce 1s ease-in-out infinite alternate;
+}
+
+.success-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 40rpx;
+}
+
+.success-stats {
+  display: flex;
+  justify-content: center;
+  gap: 60rpx;
+  margin: 60rpx 0;
+  flex-wrap: wrap;
+}
+
+.success-stat {
+  text-align: center;
+  padding: 40rpx;
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  flex: 1;
+  min-width: 240rpx;
+}
+
+.success-stat .stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.success-stat .stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* 动画 */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .game-title {
+    font-size: 42rpx;
+  }
+
+  .game-controls {
+    gap: 40rpx;
+  }
+
+  .game-stats {
+    gap: 30rpx;
+  }
+
+  .stat-item {
+    padding: 24rpx 36rpx;
+  }
+
+  .stat-value {
+    font-size: 32rpx;
+  }
+
+  .cell {
+    width: 80rpx;
+    height: 80rpx;
+    font-size: 30rpx;
+  }
+
+  .cell-input {
+    font-size: 30rpx;
+  }
+
+  .notes {
+    font-size: 18rpx;
+  }
+
+  .note-text {
+    font-size: 18rpx;
+  }
+
+  .tool-btn {
+    padding: 20rpx 24rpx;
+    min-width: 120rpx;
+  }
+
+  .tool-label {
+    font-size: 18rpx;
+  }
+
+  .action-buttons {
+    gap: 20rpx;
+  }
+
+  .thinking-panel {
+    width: calc(100% - 80rpx);
+    right: 20rpx;
+    left: 20rpx;
+  }
+}
+
+@media (max-width: 480rpx) {
+  .game-title {
+    font-size: 36rpx;
+  }
+
+  .control-section {
+    width: 100%;
+  }
+
+  .difficulty-buttons, .mode-buttons {
+    justify-content: center;
+  }
+
+  .game-stats {
+    gap: 20rpx;
+  }
+
+  .stat-item {
+    padding: 20rpx 24rpx;
+  }
+
+  .stat-value {
+    font-size: 28rpx;
+  }
+
+  .cell {
+    width: 70rpx;
+    height: 70rpx;
+    font-size: 26rpx;
+  }
+
+  .cell-input {
+    font-size: 26rpx;
+  }
+
+  .notes {
+    font-size: 16rpx;
+  }
+
+  .note-text {
+    font-size: 16rpx;
+  }
+
+  .tool-btn {
+    padding: 16rpx 20rpx;
+    min-width: 100rpx;
+  }
+
+  .tool-label {
+    font-size: 16rpx;
+  }
+}

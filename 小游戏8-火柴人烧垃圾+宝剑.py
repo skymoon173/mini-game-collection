@@ -1,0 +1,265 @@
+import pygame
+import cv2
+import numpy as np
+import random
+
+# 初始化Pygame
+pygame.init()
+
+# 设置屏幕宽度和高度
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("火柴人跳舞游戏")
+
+# 定义颜色
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+ORANGE = (255, 165, 0)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+
+# 设置帧率
+clock = pygame.time.Clock()
+FPS = 30
+
+# 定义火柴人类
+class StickFigure:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed_x = 0
+        self.fire_size = 1
+        self.sword_mode = False
+
+    def update(self):
+        self.x += self.speed_x
+        if self.x < 0:
+            self.x = 0
+        elif self.x > SCREEN_WIDTH:
+            self.x = SCREEN_WIDTH
+
+    def draw(self, move=None):
+        # 清除屏幕
+        screen.fill(WHITE)
+
+        # 头
+        pygame.draw.circle(screen, BLACK, (self.x, self.y), 10)
+        # 身体
+        pygame.draw.line(screen, BLACK, (self.x, self.y + 10), (self.x, self.y + 50), 2)
+        # 左腿
+        pygame.draw.line(screen, BLACK, (self.x, self.y + 50), (self.x - 10, self.y + 70), 2)
+        # 右腿
+        pygame.draw.line(screen, BLACK, (self.x, self.y + 50), (self.x + 10, self.y + 70), 2)
+
+        if move == 'move_1':
+            # 左臂上举，右臂下放
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 20, self.y), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 20, self.y + 40), 2)
+            self.draw_effect(self.x - 20, self.y, self.sword_mode)  # 左手火焰特效
+        elif move == 'move_2':
+            # 双臂上举
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 20, self.y), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 20, self.y), 2)
+            self.draw_effect(self.x - 20, self.y, self.sword_mode)  # 左手火焰特效
+            self.draw_effect(self.x + 20, self.y, self.sword_mode)  # 右手火焰特效
+        elif move == 'move_3':
+            # 左臂下放，右臂上举
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 20, self.y + 40), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 20, self.y), 2)
+            self.draw_effect(self.x + 20, self.y, self.sword_mode)  # 右手火焰特效
+        elif move == 'move_4':
+            # 双臂左右伸展
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 20, self.y + 20), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 20, self.y + 20), 2)
+        elif move == 'move_5':
+            # 左臂下放，右臂向前
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 10, self.y + 40), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 20, self.y + 10), 2)
+            self.draw_effect(self.x + 20, self.y + 10, self.sword_mode)  # 右手火焰特效
+        elif move == 'move_6':
+            # 左臂向前，右臂下放
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 20, self.y + 10), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 10, self.y + 40), 2)
+            self.draw_effect(self.x - 20, self.y + 10, self.sword_mode)  # 左手火焰特效
+        else:
+            # 默认双臂放下
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x - 10, self.y + 40), 2)
+            pygame.draw.line(screen, BLACK, (self.x, self.y + 20), (self.x + 10, self.y + 40), 2)
+
+    def draw_effect(self, x, y, sword_mode):
+        if sword_mode:
+            # 绘制巨大无比的宝剑
+            sword_height = 100
+            sword_width = 20
+            sword_points = [
+                (x - sword_width // 2, y),
+                (x + sword_width // 2, y),
+                (x + sword_width // 4, y - sword_height),
+                (x - sword_width // 4, y - sword_height)
+            ]
+            pygame.draw.polygon(screen, RED, sword_points)
+            pygame.draw.polygon(screen, BLACK, sword_points, 2)
+        else:
+            # 动态变化火焰的形状和颜色
+            fire_height = random.randint(10, 20) * self.fire_size
+            fire_points = [
+                (x - random.randint(3, 5) * self.fire_size, y),
+                (x, y - fire_height),
+                (x + random.randint(3, 5) * self.fire_size, y)
+            ]
+            pygame.draw.polygon(screen, RED, fire_points)
+            pygame.draw.polygon(screen, ORANGE, [
+                (x - random.randint(2, 4) * self.fire_size, y),
+                (x, y - fire_height + random.randint(2, 5) * self.fire_size),
+                (x + random.randint(2, 4) * self.fire_size, y)
+            ])
+            pygame.draw.polygon(screen, YELLOW, [
+                (x - random.randint(1, 2) * self.fire_size, y),
+                (x, y - fire_height + random.randint(4, 8) * self.fire_size),
+                (x + random.randint(1, 2) * self.fire_size, y)
+            ])
+
+    def grow_fire(self):
+        self.fire_size += 0.1
+
+    def transform_to_sword(self):
+        self.sword_mode = True
+
+# 定义垃圾类
+class Trash(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((20, 20))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.speed_y = random.randint(1, 5)
+        self.speed_x = random.randint(-2, 2)  # 水平速度，增加动感
+        self.burning = False
+        self.burn_countdown = 30  # 烧掉垃圾的动画帧数
+
+    def update(self):
+        if not self.burning:
+            self.rect.y += self.speed_y
+            self.rect.x += self.speed_x
+            if self.rect.left < 0 or self.rect.right > SCREEN_WIDTH:
+                self.speed_x = -self.speed_x  # 反弹效果
+            if self.rect.top > SCREEN_HEIGHT:
+                self.kill()
+        else:
+            self.burn_countdown -= 1
+            if self.burn_countdown <= 0:
+                self.kill()
+            else:
+                # 动态变化垃圾燃烧时的颜色
+                self.image.fill((random.randint(100, 255), random.randint(0, 50), 0))
+
+    def burn(self):
+        self.burning = True
+        self.image = pygame.Surface((20, 20), pygame.SRCALPHA)
+        pygame.draw.circle(self.image, ORANGE, (10, 10), 10)
+
+# 创建火柴人
+stick_figure = StickFigure(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
+# 初始化视频录制
+is_recording = False
+video_writer = None
+
+# 创建垃圾组
+trashes = pygame.sprite.Group()
+
+# 统计烧垃圾的数目
+burnt_trash_count = 0
+
+# 游戏主循环
+running = True
+current_move = None
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                stick_figure.speed_x = -5
+            elif event.key == pygame.K_RIGHT:
+                stick_figure.speed_x = 5
+            elif event.key == pygame.K_1:
+                current_move = 'move_1'
+            elif event.key == pygame.K_2:
+                current_move = 'move_2'
+            elif event.key == pygame.K_3:
+                current_move = 'move_3'
+            elif event.key == pygame.K_4:
+                current_move = 'move_4'
+            elif event.key == pygame.K_5:
+                current_move = 'move_5'
+            elif event.key == pygame.K_6:
+                current_move = 'move_6'
+            elif event.key == pygame.K_s:
+                if not is_recording:
+                    # 开始录像
+                    is_recording = True
+                    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+                    video_writer = cv2.VideoWriter('recording.avi', fourcc, FPS, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            elif event.key == pygame.K_t:
+                if is_recording:
+                    # 停止录像
+                    is_recording = False
+                    video_writer.release()
+                    video_writer = None
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                stick_figure.speed_x = 0
+    
+    stick_figure.update()
+    screen.fill(WHITE)  # 清除屏幕
+    stick_figure.draw(current_move)
+    
+    # 生成新的垃圾
+    if random.random() < 0.02:
+        trash = Trash(random.randint(0, SCREEN_WIDTH), 0)
+        trashes.add(trash)
+
+    trashes.update()
+    trashes.draw(screen)
+
+    # 检查火焰和垃圾的碰撞
+    for trash in trashes:
+        if current_move in ['move_1', 'move_2', 'move_3', 'move_5', 'move_6']:
+            fire_top = stick_figure.y - (10 * stick_figure.fire_size)  # 火焰顶端的y坐标
+            if trash.rect.collidepoint(stick_figure.x - 20, fire_top) or \
+               trash.rect.collidepoint(stick_figure.x + 20, fire_top):
+                if not trash.burning:
+                    trash.burn()
+                    stick_figure.grow_fire()
+                    burnt_trash_count += 1
+                    if burnt_trash_count >= 50:
+                        stick_figure.transform_to_sword()
+
+    # 显示烧垃圾的数目
+    font = pygame.font.SysFont(None, 36)
+    score_text = font.render(f'烧垃圾的数目: {burnt_trash_count}', True, BLACK)
+    screen.blit(score_text, (10, 50))
+    
+    # 如果正在录制，捕获屏幕并写入视频，并显示“录像中”
+    if is_recording and video_writer is not None:
+        frame = pygame.surfarray.array3d(screen)
+        frame = cv2.transpose(frame)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        video_writer.write(frame)
+        
+        # 显示“录像中”
+        recording_text = font.render('录像中', True, RED)
+        screen.blit(recording_text, (10, 10))
+
+    pygame.display.flip()
+    clock.tick(FPS)
+
+# 停止视频录制
+if video_writer is not None:
+    video_writer.release()
+
+pygame.quit()

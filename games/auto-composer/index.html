@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e20">
+<title>星空作曲机</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">星空作曲机</h1>
+    <a class="btn-ghost" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <main class="wrap">
+
+    <!-- 可视化面板：滚动钢琴卷帘 + 频谱 -->
+    <section class="panel viz-panel">
+      <canvas id="viz"></canvas>
+      <div class="viz-readout">
+        <span class="chip">和弦进行 <b id="chordText">—</b></span>
+        <span class="chip">小节 <b id="barText">1/2</b></span>
+      </div>
+    </section>
+
+    <!-- 控制面板 -->
+    <section class="panel controls-panel">
+      <div class="ctl-group">
+        <span class="ctl-title">走带</span>
+        <div class="ctl-row">
+          <button id="playBtn" class="btn btn-primary" type="button">播放</button>
+          <label class="bpm-box">速度
+            <input id="bpmRange" type="range" min="60" max="200" step="1" value="112">
+            <b id="bpmValue">112</b>
+          </label>
+          <label class="select-box">主音色
+            <select id="waveSelect">
+              <option value="square">方波</option>
+              <option value="triangle" selected>三角波</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="ctl-group">
+        <span class="ctl-title">自动作曲</span>
+        <div class="ctl-row">
+          <label class="select-box">调性
+            <select id="keySelect"></select>
+          </label>
+          <label class="select-box">风格
+            <select id="styleSelect"></select>
+          </label>
+          <div class="seg-box" id="complexitySeg">
+            <span>复杂度</span>
+            <button type="button" data-c="1">1</button>
+            <button type="button" data-c="2">2</button>
+            <button type="button" data-c="3" class="active">3</button>
+            <button type="button" data-c="4">4</button>
+            <button type="button" data-c="5">5</button>
+          </div>
+        </div>
+        <div class="ctl-row">
+          <button id="regenBtn" class="btn btn-cyan" type="button">重新生成</button>
+          <button id="inspireBtn" class="btn btn-pink" type="button">灵感再生成</button>
+          <button id="undoBtn" class="btn btn-ghost2" type="button">撤销</button>
+          <button id="redoBtn" class="btn btn-ghost2" type="button">重做</button>
+        </div>
+      </div>
+
+      <div class="ctl-group">
+        <span class="ctl-title">种子与导出</span>
+        <div class="ctl-row">
+          <label class="seed-box">随机种子
+            <input id="seedInput" type="number" min="1" max="999999999" step="1">
+          </label>
+          <button id="diceBtn" class="btn btn-amber" type="button">换一个种子</button>
+          <button id="exportBtn" class="btn btn-primary" type="button">导出 WAV</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 音序器面板 -->
+    <section class="panel seq-panel">
+      <div class="seq-toolbar">
+        <div class="piano-wrap">
+          <div id="piano" class="piano"></div>
+          <div class="piano-hint">当前输入音：<b id="inputNote">C5</b>　点格子写入，在旋律格上下拖拽改音高</div>
+        </div>
+      </div>
+      <div class="seq-scroll" id="seqScroll">
+        <div class="seq" id="seq"></div>
+      </div>
+      <div class="seq-legend">
+        <span><i class="dot dot-mel"></i>旋律</span>
+        <span><i class="dot dot-bass"></i>贝斯（低八度根音）</span>
+        <span><i class="dot dot-kick"></i>底鼓</span>
+        <span><i class="dot dot-hat"></i>踩镲</span>
+        <span><i class="dot dot-snr"></i>军鼓</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 开场引导浮层：点击后才创建 AudioContext -->
+  <div class="intro" id="intro">
+    <div class="intro-card">
+      <div class="intro-star"></div>
+      <h2>星空作曲机</h2>
+      <p>纯 WebAudio 随机旋律生成器与步进音序器。选择调性、风格与复杂度，由种子生成可复现的 2 或 4 小节循环；可逐格编辑旋律、贝斯与鼓组，并将作品混录为 WAV 下载。</p>
+      <ul>
+        <li>马尔可夫式音程走向，旋律落音倾向主音</li>
+        <li>五声音阶真实使用宫、商、角、徵、羽音程</li>
+        <li>底鼓、踩镲、军鼓全部由振荡器与噪声实时合成</li>
+      </ul>
+      <button id="startBtn" class="btn btn-primary btn-big" type="button">开始创作</button>
+      <p class="intro-tip">建议佩戴耳机；点击开始后会激活浏览器音频引擎。</p>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e20">
+<title>火柴人舞台</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">火柴人舞台</h1>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 导演台布局：舞台 + 控制面板 -->
+  <div class="layout">
+
+    <!-- Canvas 舞台 -->
+    <main class="stage" id="stageBox">
+      <canvas id="stage" aria-label="火柴人表演舞台"></canvas>
+
+      <!-- 舞台左上：音乐状态 -->
+      <div class="music-chip" id="musicChip">
+        <span class="dot" id="musicDot"></span>
+        <span id="musicText">点击启动鼓点</span>
+      </div>
+
+      <!-- 舞台底部：观众兴奋度 -->
+      <div class="excite">
+        <div class="excite-head">
+          <span>观众兴奋度</span>
+          <span class="excite-best">峰值 <b id="bestVal">0</b></span>
+        </div>
+        <div class="excite-track">
+          <div class="excite-fill" id="exciteFill"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 控制面板 -->
+    <aside class="panel control-panel">
+
+      <section class="ctrl-section">
+        <h2 class="ctrl-title">表演动作</h2>
+        <div class="btn-grid grid-moves">
+          <button class="act-btn" type="button" data-move="0">
+            <span class="key">1</span><span class="label">原地迪斯科</span>
+          </button>
+          <button class="act-btn" type="button" data-move="1">
+            <span class="key">2</span><span class="label">双臂挥舞</span>
+          </button>
+          <button class="act-btn" type="button" data-move="2">
+            <span class="key">3</span><span class="label">太空步滑行</span>
+          </button>
+          <button class="act-btn" type="button" data-move="3">
+            <span class="key">4</span><span class="label">诡异跑</span>
+          </button>
+          <button class="act-btn" type="button" data-move="4">
+            <span class="key">5</span><span class="label">更诡异跑</span>
+          </button>
+          <button class="act-btn" type="button" data-move="5">
+            <span class="key">6</span><span class="label">谢幕鞠躬</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="ctrl-section">
+        <h2 class="ctrl-title">舞台特效</h2>
+        <div class="btn-grid grid-effects">
+          <button class="fx-btn fx-fire" type="button" data-fx="fire">
+            <span class="key">F</span><span class="label">手部火焰</span>
+            <span class="state" id="state-fire">就绪</span>
+          </button>
+          <button class="fx-btn fx-burn" type="button" data-fx="burn">
+            <span class="key">B</span><span class="label">垃圾焚烧</span>
+            <span class="state" id="state-burn">就绪</span>
+          </button>
+          <button class="fx-btn fx-sword" type="button" data-fx="sword">
+            <span class="key">S</span><span class="label">发光宝剑</span>
+            <span class="state" id="state-sword">就绪</span>
+          </button>
+          <button class="fx-btn fx-trans" type="button" data-fx="transform">
+            <span class="key">T</span><span class="label">超级变身</span>
+            <span class="state" id="state-trans">就绪</span>
+          </button>
+        </div>
+        <p class="fx-hint" id="fxHint">火焰开启后点击舞台可投掷火球点燃垃圾桶；宝剑开启后点击舞台挥砍。</p>
+      </section>
+
+      <section class="ctrl-section">
+        <h2 class="ctrl-title">音乐与导演</h2>
+        <div class="bpm-row">
+          <label for="bpmRange">节拍速度</label>
+          <input type="range" id="bpmRange" min="60" max="160" step="1" value="112">
+          <span class="bpm-val" id="bpmVal">112</span>
+        </div>
+        <div class="btn-grid grid-tools">
+          <button class="tool-btn" type="button" id="muteBtn">
+            <span class="label">鼓点：开</span>
+          </button>
+          <button class="tool-btn" type="button" id="autoBtn">
+            <span class="label">自动导演：关</span>
+          </button>
+          <button class="tool-btn accent" type="button" id="shotBtn">
+            <span class="label">截屏留念</span>
+          </button>
+          <button class="tool-btn pink" type="button" id="beatBtn">
+            <span class="key">空格</span><span class="label">合拍特效</span>
+          </button>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+  <!-- 底部快捷键说明 -->
+  <footer class="shortcut-bar">
+    1-6 动作 · F 火焰 · B 垃圾焚烧 · S 宝剑 · T 变身 · 空格合拍特效
+  </footer>
+
+  <!-- 开场引导浮层 -->
+  <div class="overlay" id="introOverlay">
+    <section class="intro-panel">
+      <h2 class="intro-title">欢迎来到火柴人舞台</h2>
+      <p class="intro-lead">这里不是通关游戏，而是一座属于你的火柴人表演导演台。</p>
+      <ul class="intro-list">
+        <li>数字键 1-6 切换六种节目：迪斯科、挥舞、太空步、诡异跑、翻跟头与谢幕鞠躬</li>
+        <li>F 手部火焰可投掷火球，点燃舞台中央的垃圾桶进行垃圾焚烧发电</li>
+        <li>S 召唤发光宝剑挥出剑光，T 进入金色超级变身，特效均可叠加</li>
+        <li>合成鼓点驱动全部动作，踩准节拍切换动作、按空格合拍可点燃观众兴奋度</li>
+        <li>开启自动导演，坐看一场随机演出；还能一键截屏保存霓虹舞台</li>
+      </ul>
+      <button class="btn-primary" id="introStart" type="button">开始导演</button>
+    </section>
+  </div>
+
+</div>
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e20">
+<title>电磁场实验室</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ 顶部栏 ============ -->
+  <header class="topbar">
+    <h1 class="logo">电磁场实验室</h1>
+    <a class="btn-back" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- ============ 实验标签栏 ============ -->
+  <nav class="tabbar">
+    <button class="tab-btn active" type="button" data-tab="charge">① 点电荷电场</button>
+    <button class="tab-btn" type="button" data-tab="current">② 电流与磁场</button>
+    <button class="tab-btn" type="button" data-tab="magnet">③ 磁铁相互作用</button>
+    <button class="tab-btn" type="button" data-tab="ampere">④ 安培环路定理</button>
+  </nav>
+
+  <main class="stage">
+
+    <!-- 公式与操作提示 -->
+    <section class="glass formula-bar">
+      <div class="formula" id="formula"></div>
+      <div class="hint" id="hint"></div>
+    </section>
+
+    <!-- ============ 工具栏（随标签切换） ============ -->
+    <section class="glass tool-panel">
+
+      <!-- 标签一：点电荷电场 -->
+      <div class="tool-page active" data-page="charge">
+        <span class="tool-label">工具</span>
+        <div class="seg">
+          <button class="seg-btn active" type="button" data-group="chTool" data-value="select">选择 / 拖动</button>
+          <button class="seg-btn" type="button" data-group="chTool" data-value="addp">添加 ＋ 正电荷</button>
+          <button class="seg-btn" type="button" data-group="chTool" data-value="addn">添加 － 负电荷</button>
+        </div>
+        <span class="tool-label">试探电荷</span>
+        <div class="seg">
+          <button class="seg-btn active" type="button" data-group="chProbe" data-value="1">＋ 正</button>
+          <button class="seg-btn" type="button" data-group="chProbe" data-value="-1">－ 负</button>
+          <button class="seg-btn" type="button" data-group="chProbe" data-value="0">中性</button>
+        </div>
+        <button class="btn" id="chProbeBtn" type="button">放置 / 复位试探电荷</button>
+        <button class="btn toggle-on" id="chPotBtn" type="button">等势线：开</button>
+        <button class="btn btn-warn" id="chDelBtn" type="button">删除选中</button>
+      </div>
+
+      <!-- 标签二：电流与磁场 -->
+      <div class="tool-page" data-page="current">
+        <span class="tool-label">导线工具</span>
+        <div class="seg">
+          <button class="seg-btn active" type="button" data-group="cuTool" data-value="select">选择 / 拖动</button>
+          <button class="seg-btn" type="button" data-group="cuTool" data-value="addOut">添加 ⊙ 向外（红）</button>
+          <button class="seg-btn" type="button" data-group="cuTool" data-value="addIn">添加 ⊗ 向里（蓝）</button>
+        </div>
+        <button class="btn" id="cuNeedleBtn" type="button">添加小磁针</button>
+        <button class="btn btn-warn" id="cuDelBtn" type="button">删除选中</button>
+      </div>
+
+      <!-- 标签三：磁铁相互作用 -->
+      <div class="tool-page" data-page="magnet">
+        <span class="tool-label">选中磁铁</span>
+        <button class="btn" id="mgRotLBtn" type="button">逆时针转 15°</button>
+        <button class="btn" id="mgRotRBtn" type="button">顺时针转 15°</button>
+        <button class="btn" id="mgFlipBtn" type="button">翻转 180°</button>
+        <button class="btn" id="mgReseedBtn" type="button">重新撒铁屑</button>
+      </div>
+
+      <!-- 标签四：安培环路定理 -->
+      <div class="tool-page" data-page="ampere">
+        <span class="tool-label">导线工具</span>
+        <div class="seg">
+          <button class="seg-btn active" type="button" data-group="amTool" data-value="select">选择 / 拖动</button>
+          <button class="seg-btn" type="button" data-group="amTool" data-value="addOut">添加 ⊙ 向外</button>
+          <button class="seg-btn" type="button" data-group="amTool" data-value="addIn">添加 ⊗ 向里</button>
+        </div>
+        <label class="slider-label">电流大小 |I|＝<b id="amMagVal">1.0</b>
+          <input class="slider" id="amMag" type="range" min="0.2" max="3" step="0.1" value="1">
+        </label>
+        <span class="tool-label">闭合环路</span>
+        <div class="seg">
+          <button class="seg-btn active" type="button" data-group="amShape" data-value="circle">圆形</button>
+          <button class="seg-btn" type="button" data-group="amShape" data-value="rect">矩形</button>
+        </div>
+        <label class="slider-label">环路尺寸＝<b id="amSizeVal">110</b> px
+          <input class="slider" id="amSize" type="range" min="50" max="200" step="2" value="110">
+        </label>
+        <button class="btn btn-warn" id="amDelBtn" type="button">删除选中导线</button>
+      </div>
+
+      <!-- 通用控制 -->
+      <div class="common-ctl">
+        <span class="tool-label">网格密度</span>
+        <div class="seg seg-small">
+          <button class="seg-btn" type="button" data-group="density" data-value="0">疏</button>
+          <button class="seg-btn active" type="button" data-group="density" data-value="1">中</button>
+          <button class="seg-btn" type="button" data-group="density" data-value="2">密</button>
+        </div>
+        <button class="btn" id="pauseBtn" type="button">暂停</button>
+        <button class="btn" id="resetBtn" type="button">重置本实验</button>
+      </div>
+    </section>
+
+    <!-- ============ 画布区域 ============ -->
+    <section class="canvas-wrap glass">
+      <canvas id="cv"></canvas>
+      <div class="readout" id="readout"></div>
+    </section>
+
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

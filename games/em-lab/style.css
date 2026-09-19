@@ -1,0 +1,317 @@
+/* ============================================================
+   《电磁场实验室》样式表
+   纯 CSS，零外部依赖（无外部字体 / 图片 / CDN）
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #e6e9ff;
+  background: radial-gradient(circle at 50% 30%, #171a3a, #0b0e20);
+  background-attachment: fixed;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------------- 玻璃拟态面板 ---------------- */
+.glass {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 20px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* ---------------- 顶部栏 ---------------- */
+.topbar {
+  height: 56px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(10, 12, 30, .55);
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #7c5cff, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-back {
+  font-size: 13px;
+  color: #c7cbff;
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+.btn-back:hover { border-color: #7c5cff; color: #fff; background: rgba(124, 92, 255, .18); }
+
+/* ---------------- 标签栏 ---------------- */
+.tabbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabbar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 13.5px;
+  color: #b3b9e8;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: #fff; background: rgba(124, 92, 255, .18); }
+.tab-btn.active {
+  color: #fff;
+  background: rgba(124, 92, 255, .28);
+  border-color: rgba(124, 92, 255, .75);
+  box-shadow: inset 0 -2px 0 #22d3ee;
+}
+
+/* ---------------- 主区域布局 ---------------- */
+.stage {
+  position: absolute;
+  left: 0; right: 0; top: 56px; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 14px 12px;
+  gap: 10px;
+}
+
+/* ---------------- 公式条 ---------------- */
+.formula-bar {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding: 8px 16px;
+  margin-top: -1px;
+}
+.formula {
+  font-size: 14px;
+  font-weight: 600;
+  color: #22d3ee;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+.hint {
+  font-size: 12px;
+  color: #9aa0d4;
+  line-height: 1.5;
+}
+
+/* ---------------- 工具栏 ---------------- */
+.tool-panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.tool-page {
+  display: none;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.tool-page.active { display: flex; }
+
+.common-ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, .12);
+}
+
+.tool-label {
+  font-size: 12px;
+  color: #8d93c8;
+  white-space: nowrap;
+}
+
+/* 分段选择器 */
+.seg {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.seg-btn {
+  font: inherit;
+  font-size: 12.5px;
+  color: #c0c5f2;
+  background: transparent;
+  border: none;
+  padding: 7px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .14s ease;
+}
+.seg-btn + .seg-btn { border-left: 1px solid rgba(255, 255, 255, .10); }
+.seg-btn:hover { background: rgba(124, 92, 255, .18); color: #fff; }
+.seg-btn.active {
+  background: linear-gradient(135deg, rgba(124, 92, 255, .85), rgba(90, 70, 220, .85));
+  color: #fff;
+}
+.seg-small .seg-btn { padding: 6px 12px; }
+
+/* 普通按钮 */
+.btn {
+  font: inherit;
+  font-size: 12.5px;
+  color: #dfe3ff;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 10px;
+  padding: 7px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .14s ease;
+}
+.btn:hover { border-color: #7c5cff; background: rgba(124, 92, 255, .2); color: #fff; }
+.btn:active { transform: translateY(1px); }
+.btn-warn { color: #ffc9dd; }
+.btn-warn:hover { border-color: #ff5ca8; background: rgba(255, 92, 168, .18); }
+.toggle-on {
+  border-color: rgba(34, 211, 238, .7);
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, .12);
+}
+.toggle-off {
+  border-color: rgba(255, 255, 255, .18);
+  color: #8d93c8;
+  background: rgba(255, 255, 255, .04);
+}
+.btn.is-paused {
+  border-color: #ffb347;
+  color: #ffe3b3;
+  background: rgba(255, 179, 71, .15);
+}
+
+/* 滑块 */
+.slider-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #b9bff0;
+  white-space: nowrap;
+}
+.slider-label b { color: #22d3ee; font-weight: 600; min-width: 30px; text-align: right; }
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 110px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #7c5cff, #22d3ee);
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #7c5cff;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #7c5cff;
+  cursor: pointer;
+}
+
+/* ---------------- 画布 ---------------- */
+.canvas-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 240px;
+  overflow: hidden;
+}
+#cv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* 读数浮层 */
+.readout {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  max-width: calc(100% - 24px);
+  font-size: 12px;
+  line-height: 1.7;
+  color: #cfd4ff;
+  background: rgba(8, 10, 26, .66);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  padding: 8px 12px;
+  pointer-events: none;
+  white-space: pre-line;
+  text-align: left;
+}
+.readout .rd-title { color: #ffb347; font-weight: 700; margin-right: 6px; }
+.readout .rd-ok { color: #22d3ee; font-weight: 700; }
+.readout .rd-bad { color: #ff5ca8; font-weight: 700; }
+.readout .rd-eq { color: #c4b5fd; }
+
+/* ---------------- 响应式：手机端 ---------------- */
+@media (max-width: 720px) {
+  .topbar { height: 50px; padding: 0 12px; }
+  .logo { font-size: 16px; letter-spacing: 1px; }
+  .btn-back { padding: 6px 10px; font-size: 12px; }
+  .stage { top: 50px; padding: 0 8px 8px; gap: 8px; }
+  .tab-btn { font-size: 12.5px; padding: 8px 12px; }
+  .formula-bar { padding: 7px 12px; gap: 2px 12px; }
+  .formula { font-size: 12.5px; }
+  .hint { font-size: 11px; }
+  .tool-panel { padding: 8px 10px; gap: 6px; }
+  .common-ctl {
+    flex-basis: 100%;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, .10);
+    padding-top: 6px;
+  }
+  .seg-btn { padding: 8px 10px; font-size: 12px; }
+  .btn { padding: 8px 10px; }
+  .slider { width: 90px; }
+  .readout { font-size: 11px; line-height: 1.55; padding: 6px 10px; }
+}

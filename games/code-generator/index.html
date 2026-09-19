@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0e20">
+<title>小游戏代码工坊</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 7 L7 16 L13 25"></path>
+          <path d="M19 7 L25 16 L19 25"></path>
+        </svg>
+      </span>
+      <span class="brand-text">小游戏代码工坊</span>
+    </div>
+    <a class="back-link" href="../../index.html">&larr; 返回门户</a>
+  </header>
+
+  <!-- 主工作区 -->
+  <main class="workspace">
+
+    <!-- 左侧参数表单 -->
+    <aside class="panel controls">
+      <h2 class="panel-title">参数配置</h2>
+
+      <!-- 游戏类型 -->
+      <section class="field">
+        <label class="field-label">游戏类型</label>
+        <div class="seg" id="seg-type">
+          <button type="button" class="seg-btn active" data-type="ttt">井字棋</button>
+          <button type="button" class="seg-btn" data-type="snake">贪吃蛇</button>
+          <button type="button" class="seg-btn" data-type="breakout">打砖块</button>
+          <button type="button" class="seg-btn" data-type="memory">记忆翻牌</button>
+        </div>
+        <p class="field-tip" id="type-tip">与内置 AI 对战，三档难度，困难模式使用完整 minimax 算法。</p>
+      </section>
+
+      <!-- 游戏标题 -->
+      <section class="field">
+        <label class="field-label" for="f-title">游戏标题
+          <span class="label-counter"><b id="title-count">3</b>/12</span>
+        </label>
+        <input class="text-input" id="f-title" type="text" maxlength="12" value="井字棋"
+               placeholder="给小游戏起个名字">
+      </section>
+
+      <!-- 主题配色 -->
+      <section class="field">
+        <label class="field-label">主题配色</label>
+        <div class="theme-grid" id="theme-grid">
+          <button type="button" class="theme-card active" data-theme="neon">
+            <span class="theme-dots"><i style="background:#7c5cff"></i><i style="background:#22d3ee"></i></span>
+            <span class="theme-name">紫青霓虹</span>
+          </button>
+          <button type="button" class="theme-card" data-theme="sunset">
+            <span class="theme-dots"><i style="background:#ff5ca8"></i><i style="background:#ffb347"></i></span>
+            <span class="theme-name">日落橙粉</span>
+          </button>
+          <button type="button" class="theme-card" data-theme="emerald">
+            <span class="theme-dots"><i style="background:#34d399"></i><i style="background:#ffd166"></i></span>
+            <span class="theme-name">翡翠绿金</span>
+          </button>
+          <button type="button" class="theme-card" data-theme="cyber">
+            <span class="theme-dots"><i style="background:#38bdf8"></i><i style="background:#818cf8"></i></span>
+            <span class="theme-name">赛博蓝</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 类型专属参数（JS 动态渲染） -->
+      <section class="field" id="type-options"></section>
+
+      <hr class="divider">
+
+      <!-- 功能开关 -->
+      <section class="field">
+        <label class="field-label">功能开关</label>
+        <div class="switch-list">
+          <label class="switch-row">
+            <span>音效（WebAudio 蜂鸣）</span>
+            <input type="checkbox" id="f-sound" checked>
+            <span class="switch"><span class="switch-thumb"></span></span>
+          </label>
+          <label class="switch-row">
+            <span>计分板</span>
+            <input type="checkbox" id="f-score" checked>
+            <span class="switch"><span class="switch-thumb"></span></span>
+          </label>
+          <label class="switch-row">
+            <span>最高分（localStorage 本地保存）</span>
+            <input type="checkbox" id="f-best" checked>
+            <span class="switch"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- 生成操作 -->
+      <div class="actions">
+        <button type="button" class="btn btn-primary btn-block" id="btn-generate">
+          生成代码
+          <span class="dirty-dot" id="dirty-dot" title="有未应用更改"></span>
+          <span class="dirty-text" id="dirty-text">有未应用更改</span>
+        </button>
+        <div class="actions-row">
+          <button type="button" class="btn" id="btn-random">随机灵感</button>
+          <label class="live-check" for="f-live">
+            <input type="checkbox" id="f-live">
+            <span>实时生成</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 右侧代码预览 -->
+    <section class="right-col">
+      <div class="panel code-panel">
+        <div class="panel-head">
+          <h2 class="panel-title">生成结果</h2>
+          <span class="code-meta" id="code-meta">单文件 HTML · 内联 CSS/JS · 零依赖</span>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" class="btn btn-accent" id="btn-run">试 运 行</button>
+          <button type="button" class="btn" id="btn-copy">复制代码</button>
+          <button type="button" class="btn" id="btn-download">下载 HTML</button>
+        </div>
+
+        <div class="code-scroll" id="code-scroll">
+          <div class="code-inner">
+            <pre class="gutter" id="code-gutter" aria-hidden="true"></pre>
+            <pre class="code-lines"><code id="code-out"></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    生成的游戏均为单文件 HTML：内联样式与脚本、零外部依赖、简体中文界面；参数仅保存在你的浏览器本地。
+  </footer>
+
+  <!-- 试运行弹层（页面内隐藏 iframe，点击试运行时注入代码） -->
+  <div class="run-mask" id="run-mask" hidden>
+    <div class="run-card" role="dialog" aria-modal="true" aria-label="试运行生成的游戏">
+      <div class="run-bar">
+        <span class="run-title">试运行：<b id="run-name">井字棋</b></span>
+        <div class="run-actions">
+          <button type="button" class="btn btn-small" id="btn-newtab">新标签打开</button>
+          <button type="button" class="btn btn-small" id="btn-close-run">关闭</button>
+        </div>
+      </div>
+      <iframe id="run-frame" title="生成游戏试运行"></iframe>
+    </div>
+  </div>
+
+  <!-- 轻提示 -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="game.js"></script>
+</body>
+</html>

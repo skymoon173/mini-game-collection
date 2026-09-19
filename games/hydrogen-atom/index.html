@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>氢原子探秘</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 顶部栏 -->
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-dot"></span>
+    <span>氢原子探秘</span>
+    <span class="brand-sub">玻尔模型 × 量子电子云</span>
+  </div>
+  <a class="back-link" href="../../index.html">← 返回门户</a>
+</header>
+
+<!-- 主体：左画布 + 右控制面板 -->
+<main class="layout">
+
+  <section class="stage" id="stage">
+    <canvas id="view"></canvas>
+
+    <!-- 对照模式下的两个视图标签 -->
+    <div class="view-label" id="labelL">玻尔轨道模型</div>
+    <div class="view-label" id="labelR">电子云（量子模型）</div>
+
+    <!-- 底部说明文字 -->
+    <div class="caption" id="caption"></div>
+
+    <!-- 移动端展开面板按钮 -->
+    <button class="panel-toggle" id="panelToggle" type="button">控制面板 ▲</button>
+  </section>
+
+  <aside class="panel" id="panel">
+
+    <!-- 模式切换 -->
+    <div class="group">
+      <div class="group-title">显示模式</div>
+      <div class="seg" id="modeTabs">
+        <button type="button" data-mode="bohr" class="active">玻尔轨道</button>
+        <button type="button" data-mode="cloud">电子云</button>
+        <button type="button" data-mode="compare">模型对照</button>
+      </div>
+    </div>
+
+    <!-- 全局开关 -->
+    <div class="group">
+      <div class="switch-row">
+        <label class="switch">
+          <input type="checkbox" id="autoRotate" checked>
+          <span>自动慢转</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="soundOn" checked>
+          <span>跃迁音效</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 玻尔模型控制 -->
+    <div class="group" id="bohrGroup">
+      <div class="group-title">玻尔模型 · 能级 n</div>
+      <div class="seg seg-six" id="nTabs">
+        <button type="button" data-n="1" class="active">n=1</button>
+        <button type="button" data-n="2">n=2</button>
+        <button type="button" data-n="3">n=3</button>
+        <button type="button" data-n="4">n=4</button>
+        <button type="button" data-n="5">n=5</button>
+        <button type="button" data-n="6">n=6</button>
+      </div>
+      <label class="check-line">
+        <input type="checkbox" id="allOrbits">
+        <span>同时叠加显示全部允许轨道（n=1…6）</span>
+      </label>
+      <div class="hint">向更低能级切换时，电子将螺旋跃迁并发出一个光子。</div>
+    </div>
+
+    <!-- 电子云控制 -->
+    <div class="group" id="cloudGroup">
+      <div class="group-title">量子模型 · 轨道状态</div>
+      <div class="seg" id="stateTabs">
+        <button type="button" data-state="1s" class="active">1s</button>
+        <button type="button" data-state="2s">2s</button>
+        <button type="button" data-state="2p">2p</button>
+        <button type="button" data-state="3s">3s</button>
+        <button type="button" data-state="3p">3p</button>
+        <button type="button" data-state="3d">3d</button>
+      </div>
+
+      <div class="orient-wrap" id="orientWrap">
+        <div class="group-title small">空间取向</div>
+        <div class="seg seg-wrap" id="orientTabs"></div>
+      </div>
+
+      <div class="slider-line">
+        <span>云点数量</span>
+        <input type="range" id="pointCount" min="2000" max="6000" step="500" value="4000">
+        <b id="pointCountVal">4000</b>
+      </div>
+      <div class="hint">按真实波函数 |ψ|² = |R<sub>nl</sub>(r)|²·|Y<sub>lm</sub>(θ,φ)|² 采样，分批生成。</div>
+    </div>
+
+    <!-- 教学信息卡 -->
+    <div class="group">
+      <div class="group-title">教学信息卡</div>
+      <div class="info-card" id="infoCard"></div>
+    </div>
+
+    <!-- 径向概率密度小图 -->
+    <div class="group" id="radialGroup">
+      <div class="group-title">径向概率密度 P(r) = r²|R(r)|²</div>
+      <div class="radial-wrap">
+        <canvas id="radialCanvas"></canvas>
+      </div>
+      <div class="hint">虚线标出概率峰对应的最概然半径（以玻尔半径 a₀ 为单位）。</div>
+    </div>
+
+  </aside>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

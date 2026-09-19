@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>分形艺术馆</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ 顶部栏 ============ -->
+  <header class="topbar">
+    <h1 class="logo">分形艺术馆</h1>
+    <nav class="tabs" id="tabs" aria-label="展品切换">
+      <button class="tab active" type="button" data-hall="koch">科赫雪花</button>
+      <button class="tab" type="button" data-hall="dragon2">龙曲线</button>
+      <button class="tab" type="button" data-hall="dragon3">三维龙曲线</button>
+      <button class="tab" type="button" data-hall="tree">分形树</button>
+    </nav>
+    <div class="top-actions">
+      <button class="btn-ghost btn-sm" id="exportBtn" type="button">导出 PNG</button>
+      <a class="btn-ghost btn-sm" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <!-- ============ 展厅主体 ============ -->
+  <main class="app">
+
+    <!-- 展品一：科赫雪花 -->
+    <section class="hall active" id="sec-koch"
+             data-tip="调节递归深度观看逐级生长动画，按播放可逐笔描边；可在雪花与单条曲线间切换。">
+      <aside class="panel glass">
+        <h2 class="panel-title">科赫雪花</h2>
+
+        <div class="ctl-group">
+          <p class="ctl-label">初始形态</p>
+          <div class="seg-row">
+            <button class="seg active" type="button" data-koch-mode="snowflake">雪花（三边）</button>
+            <button class="seg" type="button" data-koch-mode="curve">单条曲线</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="kochDepth">递归深度</label>
+            <span class="ctl-value"><b id="kochDepthVal">4</b><i>阶</i></span>
+          </div>
+          <input id="kochDepth" class="slider" type="range" min="0" max="6" step="1" value="4">
+          <div class="scale-hint"><span>0</span><span>每深一阶线段 ×4</span><span>6</span></div>
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="kochSpeed">描边速度</label>
+            <span class="ctl-value"><b id="kochSpeedVal">1.5</b><i>倍</i></span>
+          </div>
+          <input id="kochSpeed" class="slider" type="range" min="0.5" max="3" step="0.1" value="1.5">
+        </div>
+
+        <div class="ctl-group">
+          <div class="btn-row">
+            <button class="btn-primary" id="kochPlayBtn" type="button">播放描边</button>
+            <button class="btn-ghost" id="kochReplayBtn" type="button">从头播放</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h3 class="group-title">实时参数</h3>
+          <div class="read-row"><span class="rd-k">线段数</span><span class="rd-v" id="kochSegVal">—</span></div>
+          <div class="read-row"><span class="rd-k" id="kochLenLabel">周长 / 初始周长</span><span class="rd-v" id="kochLenVal">—</span></div>
+          <div class="read-row"><span class="rd-k">自相似维数</span><span class="rd-v">log 4 / log 3 ≈ 1.262</span></div>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <canvas id="kochCanvas"></canvas>
+        <div class="fact-bar glass" id="kochFact"></div>
+      </div>
+    </section>
+
+    <!-- 展品二：2D 龙曲线 -->
+    <section class="hall" id="sec-dragon2"
+             data-tip="每次折叠把整条折线绕末端旋转 90° 后接上；点击一笔画观看发光笔尖游走。">
+      <aside class="panel glass">
+        <h2 class="panel-title">龙曲线 · 经典二维</h2>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="d2Depth">折叠深度</label>
+            <span class="ctl-value"><b id="d2DepthVal">12</b><i>阶</i></span>
+          </div>
+          <input id="d2Depth" class="slider" type="range" min="1" max="16" step="1" value="12">
+          <div class="scale-hint"><span>1</span><span>线段数 2ⁿ</span><span>16</span></div>
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="d2Speed">运笔速度</label>
+            <span class="ctl-value"><b id="d2SpeedVal">2.0</b><i>倍</i></span>
+          </div>
+          <input id="d2Speed" class="slider" type="range" min="0.5" max="4" step="0.1" value="2">
+        </div>
+
+        <div class="ctl-group">
+          <div class="btn-row">
+            <button class="btn-primary" id="d2DrawBtn" type="button">一笔画绘制</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h3 class="group-title">实时参数</h3>
+          <div class="read-row"><span class="rd-k">线段数</span><span class="rd-v" id="d2SegVal">—</span></div>
+          <div class="read-row"><span class="rd-k">顶点数</span><span class="rd-v" id="d2VertVal">—</span></div>
+          <div class="read-row"><span class="rd-k">自相似维数</span><span class="rd-v">log 2 / log √2 = 2</span></div>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <canvas id="d2Canvas"></canvas>
+        <div class="fact-bar glass" id="d2Fact"></div>
+      </div>
+    </section>
+
+    <!-- 展品三：三维龙曲线 -->
+    <section class="hall" id="sec-dragon3"
+             data-tip="拖拽旋转视角，滚轮缩放；每段中点沿水平垂直方向抬升后继续细分。">
+      <aside class="panel glass">
+        <h2 class="panel-title">龙曲线 · 三维变体</h2>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="d3Depth">递归深度</label>
+            <span class="ctl-value"><b id="d3DepthVal">10</b><i>阶</i></span>
+          </div>
+          <input id="d3Depth" class="slider" type="range" min="1" max="12" step="1" value="10">
+          <div class="scale-hint"><span>1</span><span>线段 2ⁿ（12 阶为 4096 段）</span><span>12</span></div>
+        </div>
+
+        <div class="ctl-group">
+          <label class="switch-row">
+            <span class="ctl-label">缓慢自转</span>
+            <span class="switch"><input id="d3Auto" type="checkbox" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <div class="btn-row">
+            <button class="btn-ghost" id="d3ResetBtn" type="button">重置视角</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h3 class="group-title">实时参数</h3>
+          <div class="read-row"><span class="rd-k">线段 / 顶点</span><span class="rd-v" id="d3SegVal">—</span></div>
+          <div class="read-row"><span class="rd-k">方位角 / 俯仰角</span><span class="rd-v" id="d3AngVal">—</span></div>
+          <div class="read-row"><span class="rd-k">缩放</span><span class="rd-v" id="d3ZoomVal">1.00 ×</span></div>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <canvas id="d3Canvas"></canvas>
+        <div class="fact-bar glass" id="d3Fact"></div>
+      </div>
+    </section>
+
+    <!-- 展品四：分形树（附赠展品） -->
+    <section class="hall" id="sec-tree"
+             data-tip="调节分支深度、分叉角与长度缩减比；打开微风看枝条摆动，或让一片叶子飘落。">
+      <aside class="panel glass">
+        <h2 class="panel-title">分形树 · 递归生长</h2>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="treeDepth">分支深度</label>
+            <span class="ctl-value"><b id="treeDepthVal">9</b><i>层</i></span>
+          </div>
+          <input id="treeDepth" class="slider" type="range" min="1" max="12" step="1" value="9">
+          <div class="scale-hint"><span>1</span><span>末端 2ⁿ 个生长点</span><span>12</span></div>
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="treeAngle">分叉角度</label>
+            <span class="ctl-value"><b id="treeAngleVal">25</b><i>°</i></span>
+          </div>
+          <input id="treeAngle" class="slider" type="range" min="15" max="45" step="1" value="25">
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="treeRatio">长度缩减比例</label>
+            <span class="ctl-value"><b id="treeRatioVal">72</b><i>%</i></span>
+          </div>
+          <input id="treeRatio" class="slider" type="range" min="55" max="85" step="1" value="72">
+        </div>
+
+        <div class="ctl-group">
+          <label class="switch-row">
+            <span class="ctl-label">微风摆动</span>
+            <span class="switch"><input id="treeWind" type="checkbox" checked><span class="track"><span class="knob"></span></span></span>
+          </label>
+          <div class="btn-row">
+            <button class="btn-primary" id="leafFallBtn" type="button">飘落一片叶子</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h3 class="group-title">实时参数</h3>
+          <div class="read-row"><span class="rd-k">末端叶点数</span><span class="rd-v" id="treeLeafVal">—</span></div>
+          <div class="read-row"><span class="rd-k">分支总数</span><span class="rd-v" id="treeBranchVal">—</span></div>
+          <div class="read-row"><span class="rd-k">递归规则</span><span class="rd-v rd-small">每枝一分为二</span></div>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <canvas id="treeCanvas"></canvas>
+        <div class="fact-bar glass" id="treeFact"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部提示 -->
+  <footer class="tips" id="tipBar"></footer>
+
+  <!-- 生成中浮层 -->
+  <div class="toast" id="toast" hidden>生成中…</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>牛顿第二定律实验室</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">牛顿第二定律实验室</h1>
+    <div class="top-actions">
+      <button id="pauseBtn" class="btn-ghost" type="button">暂停</button>
+      <a class="btn-ghost" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <!-- 主体：控制面板 + 实验场 -->
+  <main class="app">
+
+    <!-- 左侧玻璃控制面板 -->
+    <aside class="panel glass" id="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">实验参数</h2>
+        <button id="panelToggle" class="panel-toggle" type="button" aria-label="折叠参数面板">收起</button>
+      </div>
+
+      <div class="panel-body">
+
+        <!-- 物理参数 -->
+        <section class="ctl-group">
+          <div class="ctl-row">
+            <label class="ctl-label" for="massSlider">质量 m</label>
+            <span class="ctl-value"><b id="massVal">1.0</b><i>kg</i></span>
+          </div>
+          <input id="massSlider" class="slider" type="range" min="0.5" max="10" step="0.1" value="1">
+          <div class="scale-hint"><span>0.5</span><span>半径随质量增大</span><span>10</span></div>
+
+          <div class="ctl-row">
+            <label class="ctl-label" for="gSlider">重力加速度 g</label>
+            <span class="ctl-value"><b id="gVal">9.80</b><i>m/s²</i></span>
+          </div>
+          <input id="gSlider" class="slider" type="range" min="0" max="25" step="0.01" value="9.8">
+          <div class="quick-row">
+            <button class="chip-btn" type="button" data-g="9.8">地球 9.8</button>
+            <button class="chip-btn" type="button" data-g="1.62">月球 1.62</button>
+            <button class="chip-btn" type="button" data-g="3.71">火星 3.71</button>
+            <button class="chip-btn" type="button" data-g="0">失重 0</button>
+          </div>
+
+          <div class="ctl-row">
+            <label class="ctl-label" for="eSlider">弹性系数（恢复系数）</label>
+            <span class="ctl-value"><b id="eVal">0.78</b><i>0~1</i></span>
+          </div>
+          <input id="eSlider" class="slider" type="range" min="0" max="1" step="0.01" value="0.78">
+
+          <div class="switch-row">
+            <label class="switch-label" for="dragToggle">空气阻力（与速度平方成正比）</label>
+            <label class="switch">
+              <input id="dragToggle" type="checkbox">
+              <span class="track"><span class="knob"></span></span>
+            </label>
+          </div>
+          <div class="switch-row">
+            <label class="switch-label" for="trailToggle">轨迹残影</label>
+            <label class="switch">
+              <input id="trailToggle" type="checkbox" checked>
+              <span class="track"><span class="knob"></span></span>
+            </label>
+          </div>
+          <div class="switch-row">
+            <label class="switch-label" for="chartToggle">速度曲线 v-t</label>
+            <label class="switch">
+              <input id="chartToggle" type="checkbox" checked>
+              <span class="track"><span class="knob"></span></span>
+            </label>
+          </div>
+
+          <div class="btn-row">
+            <button id="resetBtn" class="btn-primary" type="button">重置小球</button>
+            <button id="clearBtn" class="btn-ghost btn-asbtn" type="button">清空数据</button>
+          </div>
+        </section>
+
+        <!-- 实时读数 -->
+        <section class="ctl-group">
+          <h3 class="group-title">实时读数</h3>
+          <div class="read-row"><span class="rd-k">水平位置 x</span><span class="rd-v" id="rX">0.00 <i>m</i></span></div>
+          <div class="read-row"><span class="rd-k">离地高度 h</span><span class="rd-v" id="rY">0.00 <i>m</i></span></div>
+          <div class="read-row"><span class="rd-k">速度大小 |v|</span><span class="rd-v" id="rV">0.00 <i>m/s</i></span></div>
+          <div class="read-row"><span class="rd-k">加速度大小 |a|</span><span class="rd-v" id="rA">0.00 <i>m/s²</i></span></div>
+          <div class="read-row"><span class="rd-k">动能 ½mv²</span><span class="rd-v" id="rKE">0.0 <i>J</i></span></div>
+          <div class="read-row"><span class="rd-k">重力势能 mgh</span><span class="rd-v" id="rPE">0.0 <i>J</i></span></div>
+          <div class="read-row"><span class="rd-k">机械能 E</span><span class="rd-v" id="rE">0.0 <i>J</i></span></div>
+          <div class="read-row"><span class="rd-k">重力 G = mg</span><span class="rd-v" id="rG">0.0 <i>N</i></span></div>
+        </section>
+
+        <!-- v-t 迷你图表 -->
+        <section class="ctl-group" id="chartGroup">
+          <div class="chart-head">
+            <h3 class="group-title">速度-时间曲线</h3>
+            <button id="chartClearBtn" class="link-btn" type="button">清空曲线</button>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart"></canvas>
+          </div>
+          <p class="chart-note">纵轴：速度 m/s · 横轴：最近 20 秒</p>
+        </section>
+
+      </div>
+    </aside>
+
+    <!-- 实验场 -->
+    <section class="stage" id="stage">
+      <canvas id="world"></canvas>
+
+      <!-- 动态结论 -->
+      <div class="banner" id="banner"></div>
+
+      <!-- 角标公式条 F = m·a -->
+      <div class="formula glass" id="formulaBar">
+        <span class="fpart f-pink" id="fChip">F = <b id="fF">0.0</b><i>N</i></span>
+        <span class="fsign">=</span>
+        <span class="fpart">m = <b id="fM">1.0</b><i>kg</i></span>
+        <span class="fsign">×</span>
+        <span class="fpart f-cyan" id="aChip">a = <b id="fA">0.00</b><i>m/s²</i></span>
+      </div>
+
+      <!-- 暂停遮罩 -->
+      <div class="overlay hidden" id="pauseOverlay">
+        <div class="mini-panel glass">
+          <h2 class="ov-title">实验已暂停</h2>
+          <p class="ov-desc">计时与物理模拟都已停止</p>
+          <button id="btnResume" class="btn-primary" type="button">继续实验</button>
+        </div>
+      </div>
+
+      <!-- 开场引导浮层 -->
+      <div class="overlay" id="introOverlay">
+        <div class="mini-panel glass intro-panel">
+          <h2 class="ov-title">动手感受 <span class="hl">F = m · a</span></h2>
+          <ul class="guide-list">
+            <li>在场地中<b>按住鼠标拖拽</b>（或触屏拖动），松开发射小球</li>
+            <li>按住<b>空格</b>蓄力，左右方向键可瞄准，松开发射</li>
+            <li>运动中按 <b>↑ ↓ ← →</b> 可持续施加小力</li>
+            <li>调整质量、重力、弹性，观察三个矢量与能量读数</li>
+            <li>换不同质量重复发射，验证：力相同时，加速度与质量成反比</li>
+          </ul>
+          <button id="btnStart" class="btn-primary" type="button">开始实验</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="tips">拖拽蓄力发射 · 空格蓄力（方向键瞄准/施力） · 滑块调整物理参数</footer>
+
+<script src="game.js"></script>
+</body>
+</html>

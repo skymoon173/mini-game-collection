@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0e20">
+<title>数学实验室</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ 顶部栏 ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">∑</span>
+      <h1 class="logo">数学实验室</h1>
+    </div>
+    <a class="btn-ghost" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- ============ 工具标签 ============ -->
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" type="button" data-tab="gauss" role="tab">① 高斯积分器</button>
+    <button class="tab-btn" type="button" data-tab="pi" role="tab">② 圆周率工坊</button>
+    <button class="tab-btn" type="button" data-tab="fourier" role="tab">③ 傅里叶变换台</button>
+  </nav>
+
+  <main class="app">
+
+    <!-- ================================================================ -->
+    <!-- 标签一：高斯积分器                                                 -->
+    <!-- ================================================================ -->
+    <section class="tab-panel active" id="panel-gauss" role="tabpanel">
+
+      <div class="panel glass ctl-bar">
+        <div class="ctl-block grow">
+          <span class="ctl-title">被积函数</span>
+          <div class="seg" id="gFuncSeg">
+            <button class="seg-btn active" type="button" data-fn="gauss">f(x) = e<sup>−x²</sup></button>
+            <button class="seg-btn" type="button" data-fn="exp">f(x) = e<sup>−x</sup>（正半轴）</button>
+            <button class="seg-btn" type="button" data-fn="sinc">f(x) = sin(x)/x</button>
+          </div>
+        </div>
+        <div class="ctl-block grow">
+          <div class="ctl-row-line">
+            <span class="ctl-title">积分下限 a</span>
+            <span class="slider-val" id="gAVal">−1.50</span>
+          </div>
+          <div class="num-line">
+            <input id="gASlide" class="slider" type="range" min="-5" max="5" step="0.01" value="-1.5">
+            <input id="gAInput" class="num-input" type="number" min="-5" max="5" step="0.1" value="-1.5">
+          </div>
+          <div class="ctl-row-line">
+            <span class="ctl-title">积分上限 b（始终保持 a &lt; b）</span>
+            <span class="slider-val" id="gBVal">1.50</span>
+          </div>
+          <div class="num-line">
+            <input id="gBSlide" class="slider" type="range" min="-5" max="5" step="0.01" value="1.5">
+            <input id="gBInput" class="num-input" type="number" min="-5" max="5" step="0.1" value="1.5">
+          </div>
+        </div>
+        <div class="ctl-block">
+          <span class="ctl-title">区间与演示</span>
+          <div class="chip-row">
+            <button class="chip-btn primary" type="button" id="gLimitBtn">无穷区间极限</button>
+            <button class="chip-btn" type="button" id="gRiemBtn">播放黎曼和收敛</button>
+          </div>
+          <div class="riem-state" id="gRiemState">矩形数 n = 4　·　提示：也可直接拖动图中 a、b 手柄</div>
+        </div>
+      </div>
+
+      <div class="canvas-card glass">
+        <canvas id="cvGauss"></canvas>
+      </div>
+
+      <div class="read-grid four">
+        <div class="read-cell">
+          <span class="rd-k">Simpson 数值积分（n = 1000）</span>
+          <span class="rd-v cyan" id="gSimp">—</span>
+        </div>
+        <div class="read-cell">
+          <span class="rd-k">解析 / 级数精确值</span>
+          <span class="rd-v" id="gExact">—</span>
+        </div>
+        <div class="read-cell">
+          <span class="rd-k">两者差异</span>
+          <span class="rd-v pink" id="gDiff">—</span>
+        </div>
+        <div class="read-cell">
+          <span class="rd-k">黎曼和（矩形中点法）</span>
+          <span class="rd-v amber" id="gRiemVal">—</span>
+        </div>
+      </div>
+
+      <p class="insight" id="gInsight"></p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 标签二：圆周率工坊                                                 -->
+    <!-- ================================================================ -->
+    <section class="tab-panel" id="panel-pi" role="tabpanel">
+
+      <div class="panel glass ctl-bar wrap">
+        <div class="formula-box">
+          <span class="frac"><span class="num">1</span><span class="den">π</span></span>
+          <span class="f-op">=</span>
+          <span class="frac"><span class="num">2√2</span><span class="den">9801</span></span>
+          <span class="f-sum">Σ<sub>k=0</sub><sup>∞</sup></span>
+          <span class="frac">
+            <span class="num">(4k)! · (1103 + 26390k)</span>
+            <span class="den">(k!)<sup>4</sup> · 396<sup>4k</sup></span>
+          </span>
+        </div>
+        <div class="ctl-block grow">
+          <span class="ctl-title">算法</span>
+          <div class="seg" id="piModeSeg">
+            <button class="seg-btn active" type="button" data-mode="ram">拉马努金级数</button>
+            <button class="seg-btn" type="button" data-mode="lei">莱布尼茨级数（对比）</button>
+            <button class="seg-btn" type="button" data-mode="poly">割圆术（对比）</button>
+          </div>
+        </div>
+        <div class="ctl-block grow">
+          <div class="ctl-row-line">
+            <span class="ctl-title" id="piSlideLabel">累加项数（每多 1 项约多 8 位正确数字）</span>
+            <span class="slider-val" id="piNVal">3 项</span>
+          </div>
+          <div class="num-line">
+            <input id="piSlider" class="slider" type="range" min="1" max="8" step="1" value="3">
+            <button class="chip-btn primary" type="button" id="piPlayBtn">播放收敛</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pi-grid">
+        <div class="panel glass digit-panel">
+          <div class="digit-head">
+            <span class="digit-tag" id="piAlgName">拉马努金部分和</span>
+            <span class="digit-sub" id="piAlgDetail">k = 0 … 2</span>
+          </div>
+          <div class="digit-line">
+            <span class="digits" id="piDigits"></span>
+          </div>
+          <div class="digit-line">
+            <span class="digit-tag dim">真　值</span>
+            <span class="digits true-digits" id="piTrueDigits"></span>
+          </div>
+          <div class="pi-stats">
+            <div class="read-cell">
+              <span class="rd-k">正确位数</span>
+              <span class="rd-v cyan" id="piCorrect">—</span>
+            </div>
+            <div class="read-cell">
+              <span class="rd-k">|π̂ − π|</span>
+              <span class="rd-v pink" id="piErr">—</span>
+            </div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><span>k</span><span>π 部分和</span><span>误差（科学计数）</span></div>
+            <ol class="step-list" id="piStepList"></ol>
+          </div>
+        </div>
+
+        <div class="canvas-card glass pi-chart-card">
+          <div class="card-cap">误差收敛对比（双对数：横轴计算量，纵轴 |π̂ − π|；点从右向左坠落）</div>
+          <canvas id="cvPiErr"></canvas>
+          <div class="chart-legend">
+            <span class="lg-dot ram"></span>拉马努金
+            <span class="lg-dot lei"></span>莱布尼茨
+            <span class="lg-dot poly"></span>割圆术
+          </div>
+        </div>
+      </div>
+
+      <p class="insight" id="piInsight"></p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 标签三：傅里叶变换台                                               -->
+    <!-- ================================================================ -->
+    <section class="tab-panel" id="panel-fourier" role="tabpanel">
+
+      <div class="panel glass ctl-bar wrap">
+        <div class="ctl-block comps-block grow">
+          <span class="ctl-title">合成信号：三个正弦分量（实时叠加）</span>
+          <div class="comp-rows" id="fCompRows"></div>
+        </div>
+        <div class="ctl-block">
+          <span class="ctl-title">噪声 / 采样 / 窗函数</span>
+          <label class="check-line">
+            <input type="checkbox" id="fNoiseOn">
+            <span>叠加高斯白噪声</span>
+          </label>
+          <div class="slider-mini">
+            <label for="fNoiseAmp">噪声强度 σ</label>
+            <input id="fNoiseAmp" class="slider" type="range" min="0" max="0.6" step="0.01" value="0.12" disabled>
+            <span class="slider-val" id="fNoiseAmpVal">0.12</span>
+          </div>
+          <div class="seg-mini">
+            <span class="seg-title">FFT 点数</span>
+            <div class="seg" id="fNSeg">
+              <button class="seg-btn" type="button" data-n="256">256</button>
+              <button class="seg-btn active" type="button" data-n="512">512</button>
+              <button class="seg-btn" type="button" data-n="1024">1024</button>
+            </div>
+          </div>
+          <div class="seg-mini">
+            <span class="seg-title">窗函数</span>
+            <div class="seg" id="fWinSeg">
+              <button class="seg-btn active" type="button" data-win="rect">矩形窗</button>
+              <button class="seg-btn" type="button" data-win="hann">Hann 窗</button>
+            </div>
+          </div>
+          <button class="chip-btn" type="button" id="fReseedBtn">重新生成噪声</button>
+        </div>
+      </div>
+
+      <div class="canvas-card glass">
+        <div class="card-cap">时域波形（采样率 512 Hz，256 个采样点 = 0.5 秒）</div>
+        <canvas id="cvTime"></canvas>
+      </div>
+
+      <div class="canvas-card glass spec-card">
+        <div class="card-cap">幅度谱（自研基 -2 迭代 FFT，补零到所选点数，显示至奈奎斯特频率 256 Hz；鼠标悬停查看读数）</div>
+        <canvas id="cvFreq"></canvas>
+        <div class="spec-tip" id="fSpecTip" hidden></div>
+      </div>
+
+      <p class="insight" id="fInsight"></p>
+    </section>
+
+  </main>
+
+  <footer class="tips">高斯页可拖动手柄改变区间并播放黎曼和动画　·　圆周率页切换三种算法感受收敛速度差异　·　傅里叶页悬停谱线读取频率与幅度，切换 Hann 窗观察频谱泄漏变化</footer>
+
+<script src="game.js"></script>
+</body>
+</html>

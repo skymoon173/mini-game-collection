@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0e20">
+<title>和小猫玩跷跷板</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">和小猫玩跷跷板</h1>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <!-- 游戏舞台 -->
+  <main class="stage" id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- 抬头显示 -->
+    <div class="hud">
+      <div class="hud-group">
+        <div class="hud-item">坚持<span id="timeVal">0.0秒</span></div>
+        <div class="hud-item small">最高<span id="bestVal">0</span></div>
+      </div>
+      <div class="hud-group right">
+        <div class="chip level-chip">关卡<b id="levelVal">1</b></div>
+        <div class="chip score-chip">分数<b id="scoreVal">0</b></div>
+        <button class="icon-btn" id="pauseBtn" type="button">暂停</button>
+      </div>
+    </div>
+
+    <!-- 触屏控制按钮 -->
+    <div class="touch-controls" id="touchControls">
+      <button class="touch-btn move-btn" id="btnLeft" type="button" aria-label="向左移动">
+        <span class="arrow-left"></span>
+      </button>
+      <button class="touch-btn weight-btn" id="btnWeight" type="button">
+        <span class="weight-label" id="weightLabel">中</span>
+        <span class="weight-sub">重量</span>
+      </button>
+      <button class="touch-btn move-btn" id="btnRight" type="button" aria-label="向右移动">
+        <span class="arrow-right"></span>
+      </button>
+    </div>
+
+    <!-- 开始遮罩 -->
+    <div class="overlay" id="startOverlay">
+      <section class="panel">
+        <h2 class="panel-title">和小猫玩跷跷板</h2>
+        <ul class="intro">
+          <li>夜晚的霓虹公园，你和一只橘猫站上跷跷板，角度超过 22° 持续过久就会有人摔下去</li>
+          <li>A / D 或 ← / → 沿木板移动；W 增重、S 减重，共三档，越重体型越大</li>
+          <li>板身倾斜时你会自己往下滑，必须主动走位抵消；橘猫会随机散步、坐下打盹增重</li>
+          <li>点击掉落的鱼和毛线球捡起给猫，它会开心地跑向中心；保持近水平可获得完美平衡奖分</li>
+        </ul>
+        <button class="btn primary" id="startBtn" type="button">开始平衡</button>
+      </section>
+    </div>
+
+    <!-- 暂停遮罩 -->
+    <div class="overlay hidden" id="pauseOverlay">
+      <section class="panel">
+        <h2 class="panel-title">已暂停</h2>
+        <p class="tip">按 Esc 键或点击下方按钮继续游戏</p>
+        <button class="btn primary" id="resumeBtn" type="button">继续游戏</button>
+      </section>
+    </div>
+
+    <!-- 结束遮罩 -->
+    <div class="overlay hidden" id="overOverlay">
+      <section class="panel">
+        <h2 class="panel-title" id="overTitle">平衡告破</h2>
+        <p class="tip" id="overReason">跷跷板翻了过去。</p>
+        <div class="result">
+          <div class="result-row">坚持时间<span id="finalTime">0秒</span></div>
+          <div class="result-row">到达关卡<span id="finalLevel">1</span></div>
+          <div class="result-row">本次得分<span id="finalScore">0</span></div>
+          <div class="result-row">历史最高<span id="finalBest">0</span></div>
+        </div>
+        <p class="record hidden" id="recordTip">恭喜刷新最高纪录！</p>
+        <button class="btn primary" id="againBtn" type="button">再玩一次</button>
+      </section>
+    </div>
+  </main>
+
+  <!-- 底部操作说明 -->
+  <footer class="footer">
+    A / D 或 ← / → 移动 · W / S 切换重量档位 · 点击鱼或毛线球喂猫 · Esc 暂停 · 触屏使用下方按钮
+  </footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

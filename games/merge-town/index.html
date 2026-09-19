@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>合成小镇</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部栏：左标题，右返回门户 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">镇</span>
+      <h1 class="brand-title">合成小镇</h1>
+    </div>
+    <a class="back-link" href="../../index.html">← 返回门户</a>
+  </header>
+
+  <main class="stage">
+
+    <!-- 计分与道具区 -->
+    <section class="hud panel">
+      <div class="score-box">
+        <span class="score-label">分数</span>
+        <span class="score-value" id="scoreValue">0</span>
+      </div>
+      <div class="score-box">
+        <span class="score-label">最高分</span>
+        <span class="score-value" id="bestValue">0</span>
+      </div>
+      <div class="score-box">
+        <span class="score-label">剩余格数</span>
+        <span class="score-value" id="spaceValue">36</span>
+      </div>
+      <div class="hud-actions">
+        <button class="btn" id="undoBtn" type="button">
+          撤销<span class="btn-count" id="undoCount">3</span>
+        </button>
+        <button class="btn" id="refreshBtn" type="button">
+          刷新<span class="btn-count" id="refreshCount">3</span>
+        </button>
+        <button class="btn btn-primary" id="newBtn" type="button">新游戏</button>
+      </div>
+    </section>
+
+    <!-- 棋盘 -->
+    <section class="board-wrap">
+      <div class="board panel" aria-label="合成小镇游戏棋盘">
+        <canvas id="boardCanvas" class="game-canvas"></canvas>
+
+        <!-- 开始遮罩 -->
+        <div class="overlay" id="startOverlay">
+          <div class="overlay-card">
+            <h2 class="overlay-title">合成小镇</h2>
+            <p class="overlay-text">
+              在 6×6 的小镇用地上点击空格放置地块，与<strong>相邻同类</strong>建筑会自动合成升级，
+              合成后的新建筑若再次挨着同类，还会触发<strong>连锁合成</strong>，连锁越长倍率越高！
+            </p>
+            <div class="chain-legend" aria-label="合成等级链">
+              <span style="--c:#4ade80">草丛</span><i>→</i>
+              <span style="--c:#22c55e">灌木</span><i>→</i>
+              <span style="--c:#16a34a">大树</span><i>→</i>
+              <span style="--c:#ffb347">小屋</span><i>→</i>
+              <span style="--c:#7c5cff">城堡</span><i>→</i>
+              <span style="--c:#ffd166">城镇</span>
+            </div>
+            <p class="overlay-text sub">每次放置 +1 分；连锁倍率 ×1.5、×2、×2.5 依次递增。每局可使用 3 次撤销与 3 次刷新。</p>
+            <div class="overlay-actions">
+              <button class="btn btn-primary btn-lg" id="startBtn" type="button">开始游戏</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 结束遮罩 -->
+        <div class="overlay hidden" id="overOverlay">
+          <div class="overlay-card">
+            <h2 class="overlay-title lose">小镇用地已满</h2>
+            <div class="result-stats">
+              <div class="result-row"><span>本局得分</span><b id="finalScore">0</b></div>
+              <div class="result-row"><span>历史最高</span><b id="finalBest">0</b></div>
+              <div class="result-row"><span>最高合成等级</span><b id="finalLevel">草丛</b></div>
+            </div>
+            <div class="overlay-actions">
+              <button class="btn btn-primary btn-lg" id="retryBtn" type="button">再来一局</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 持有栏：当前地块与未来两个预告 -->
+    <section class="holder panel">
+      <div class="holder-head">
+        <span class="holder-title">下一个将放置的地块</span>
+      </div>
+      <div class="slots">
+        <div class="slot is-current">
+          <canvas class="slot-canvas" id="slot0" width="96" height="96"></canvas>
+          <span class="slot-name" id="slot0Name">草丛</span>
+        </div>
+        <div class="slot">
+          <canvas class="slot-canvas slot-canvas-sm" id="slot1" width="72" height="72"></canvas>
+          <span class="slot-name" id="slot1Name">灌木</span>
+        </div>
+        <div class="slot">
+          <canvas class="slot-canvas slot-canvas-sm" id="slot2" width="72" height="72"></canvas>
+          <span class="slot-name" id="slot2Name">大树</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部一行操作说明 -->
+    <footer class="tips">点击或触摸空格放置地块 · 与相邻同类自动合成并连锁升级 · 连锁倍率 ×1.5 起逐级递增 · 棋盘无空格时游戏结束</footer>
+  </main>
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # 小游戏合集 · 全新重制版
 
-> 10 个用纯原生 HTML / CSS / JavaScript（Canvas 2D）从零重制的网页小游戏，零依赖、可离线、同时支持键盘与手机触屏。
+> 20 个用纯原生 HTML / CSS / JavaScript（Canvas 2D / WebAudio）从零重制的网页游戏与互动实验室，零依赖、可离线、同时支持键盘与手机触屏。
 
 ## 在线试玩
 
@@ -22,6 +22,16 @@
 | 8 | [霓虹数独](games/sudoku/index.html) | 逻辑推理 | 三档难度、唯一解、笔记 / 提示 / 计时 |
 | 9 | [星空农场](games/farm-tycoon/index.html) | 经营养成 | 种植买卖、天气行情、随机事件、扩建升级 |
 | 10 | [星空塔罗](games/tarot/index.html) | 占卜休闲 | 22 张大阿卡纳 SVG 手绘牌面、三牌牌阵 |
+| 11 | [合成小镇](games/merge-town/index.html) | 合成策略 | 草丛到城镇六级合成、相邻连锁、撤销与刷新道具 |
+| 12 | [牛顿第二定律实验室](games/newton-lab/index.html) | 物理仿真 | 蓄力发射、力/速度矢量实时显示、质量重力弹性可调 |
+| 13 | [和小猫玩跷跷板](games/cat-seesaw/index.html) | 平衡物理 | 自研定轴转动物理，与 AI 橘猫斗智斗勇保持平衡 |
+| 14 | [火柴人舞台](games/stickman-stage/index.html) | 创意玩具 | 六动作 + 火焰/光剑/变身特效 + WebAudio 鼓点导演台 |
+| 15 | [星空作曲机](games/auto-composer/index.html) | 音乐创作 | 纯 WebAudio 三轨音序器、五种风格自动作曲、导出 WAV |
+| 16 | [分形艺术馆](games/fractal-gallery/index.html) | 数学分形 | 科赫雪花、3D 龙曲线等递归图形互动画廊 |
+| 17 | [电磁场实验室](games/em-lab/index.html) | 电磁仿真 | 点电荷场线、电流磁场、磁铁相互作用、安培环路定理 |
+| 18 | [氢原子探秘](games/hydrogen-atom/index.html) | 量子仿真 | 玻尔轨道与 1s 电子概率云三维可视化 |
+| 19 | [数学实验室](games/math-lab/index.html) | 数学可视化 | 高斯积分、拉马努金求圆周率、傅里叶频谱分析 |
+| 20 | [小游戏代码工坊](games/code-generator/index.html) | 编程生成器 | 一键生成零依赖单文件小游戏，在线试玩与下载 |
 
 ## 本地运行
 
@@ -43,17 +53,14 @@ python -m http.server 8000
 .
 ├── index.html            # 游戏门户（游戏列表入口）
 ├── portal.css / portal.js
-├── games/                # 全新重制的 10 个网页游戏
-│   ├── dodge-blocks/
-│   ├── sky-shooter/
-│   ├── stickman-runner/
-│   ├── snake/
-│   ├── iso-snake/
-│   ├── merge-2048/
-│   ├── merge-cats/
-│   ├── sudoku/
-│   ├── farm-tycoon/
-│   └── tarot/
+├── games/                # 全新重制的 20 个网页游戏 / 互动实验室
+│   ├── dodge-blocks/  sky-shooter/      stickman-runner/
+│   ├── snake/         iso-snake/        merge-2048/
+│   ├── merge-cats/    sudoku/           farm-tycoon/
+│   ├── tarot/         merge-town/       newton-lab/
+│   ├── cat-seesaw/    stickman-stage/   auto-composer/
+│   ├── fractal-gallery/  em-lab/        hydrogen-atom/
+│   └── math-lab/      code-generator/
 ├── 小游戏*/               # 历年原始版本（Python / 早期网页版），作为存档保留
 └── LICENSE               # MIT 许可证
 ```

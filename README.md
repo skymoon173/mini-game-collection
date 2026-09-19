@@ -1,6 +1,6 @@
 # 小游戏合集 · 全新重制版
 
-> 20 个用纯原生 HTML / CSS / JavaScript（Canvas 2D / WebAudio）从零重制的网页游戏与互动实验室，零依赖、可离线、同时支持键盘与手机触屏。
+> 21 个用纯原生 HTML / CSS / JavaScript（Canvas 2D / WebAudio）从零重制的网页游戏与互动实验室，零依赖、可离线、同时支持键盘与手机触屏。
 
 ## 在线试玩
 
@@ -32,6 +32,7 @@
 | 18 | [氢原子探秘](games/hydrogen-atom/index.html) | 量子仿真 | 玻尔轨道与 1s 电子概率云三维可视化 |
 | 19 | [数学实验室](games/math-lab/index.html) | 数学可视化 | 高斯积分、拉马努金求圆周率、傅里叶频谱分析 |
 | 20 | [小游戏代码工坊](games/code-generator/index.html) | 编程生成器 | 一键生成零依赖单文件小游戏，在线试玩与下载 |
+| 21 | [智能装修工坊](games/room-styler/index.html) | 照片创意 | 上传房间照片一键焕新、涂抹换墙色、摆放八件矢量家具、导出前后对比图 |
 
 ## 本地运行
 
@@ -53,14 +54,14 @@ python -m http.server 8000
 .
 ├── index.html            # 游戏门户（游戏列表入口）
 ├── portal.css / portal.js
-├── games/                # 全新重制的 20 个网页游戏 / 互动实验室
+├── games/                # 全新重制的 21 个网页游戏 / 互动实验室
 │   ├── dodge-blocks/  sky-shooter/      stickman-runner/
 │   ├── snake/         iso-snake/        merge-2048/
 │   ├── merge-cats/    sudoku/           farm-tycoon/
 │   ├── tarot/         merge-town/       newton-lab/
 │   ├── cat-seesaw/    stickman-stage/   auto-composer/
 │   ├── fractal-gallery/  em-lab/        hydrogen-atom/
-│   └── math-lab/      code-generator/
+│   ├── math-lab/      code-generator/   room-styler/
 ├── 小游戏*/               # 历年原始版本（Python / 早期网页版），作为存档保留
 └── LICENSE               # MIT 许可证
 ```

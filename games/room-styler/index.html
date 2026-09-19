@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e20">
+<title>智能装修工坊</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <h1 class="logo">智能装修工坊</h1>
+    <div class="top-right">
+      <span class="privacy" id="privacyNote">照片不会上传，全程在浏览器内处理</span>
+      <a class="btn btn-ghost" href="../../index.html">← 返回门户</a>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- 左侧工具箱（移动端折叠为底部抽屉） -->
+    <aside class="panel sidebar" id="sidebar" aria-label="工具箱">
+      <div class="side-head">
+        <span>工具箱</span>
+        <button class="btn btn-ghost2 btn-mini" id="drawerClose" type="button">收起</button>
+      </div>
+
+      <!-- 墙面工具 -->
+      <section class="side-sec">
+        <h3 class="side-title">墙面工具</h3>
+        <div class="tool-grid" id="toolGrid">
+          <button class="tool-btn active" type="button" data-tool="brush">
+            <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M20.4 3.6a2.2 2.2 0 0 0-3.1 0L9.5 11.4l3.1 3.1 7.8-7.8a2.2 2.2 0 0 0 0-3.1zM8.2 12.8c-2.8.2-5 2-5.7 4.6-.5 1.9.2 3.2 1.3 3.4.8.2 1.7-.4 2.5-1.3.5 1 1.4 1.6 2.3 1.4 1.3-.3 1.9-2 1.4-4.1l-1.8-4z"/></svg></span>
+            <span>墙面刷</span>
+          </button>
+          <button class="tool-btn" type="button" data-tool="eraser">
+            <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M15.1 3.3c-.8-.8-2.1-.8-2.9 0L4.3 11.2c-.8.8-.8 2.1 0 2.9l4.2 4.2h9.8l-3.2-15zm-1.4 4.1 1.9 1.9L8.7 16.2l-1.9-1.9 6.9-6.9z"/></svg></span>
+            <span>橡皮擦</span>
+          </button>
+          <button class="tool-btn" type="button" data-tool="select">
+            <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 3l16 7.2-6.8 1.7L9.5 19 4 3z"/></svg></span>
+            <span>选择摆放</span>
+          </button>
+        </div>
+
+        <div class="swatches" id="swatches">
+          <button class="swatch" type="button" data-color="#f1ece1" style="background:#f1ece1" title="米白" aria-label="米白"></button>
+          <button class="swatch" type="button" data-color="#c3d4e6" style="background:#c3d4e6" title="雾蓝" aria-label="雾蓝"></button>
+          <button class="swatch" type="button" data-color="#c7e8d8" style="background:#c7e8d8" title="薄荷" aria-label="薄荷"></button>
+          <button class="swatch" type="button" data-color="#f5e6b8" style="background:#f5e6b8" title="奶油黄" aria-label="奶油黄"></button>
+          <button class="swatch" type="button" data-color="#e8c9c9" style="background:#e8c9c9" title="脏粉" aria-label="脏粉"></button>
+          <button class="swatch" type="button" data-color="#c2d2c2" style="background:#c2d2c2" title="灰绿" aria-label="灰绿"></button>
+          <button class="swatch" type="button" data-color="#d8cddd" style="background:#d8cddd" title="藕紫" aria-label="藕紫"></button>
+          <button class="swatch" type="button" data-color="#6b6f76" style="background:#6b6f76" title="炭灰" aria-label="炭灰"></button>
+        </div>
+        <label class="custom-color">
+          <span>自定义墙色</span>
+          <input type="color" id="customColor" value="#a9c7e0">
+        </label>
+
+        <label class="range-row">
+          <span>笔刷大小 <b id="brushSizeVal">44</b></span>
+          <input type="range" id="brushSize" min="10" max="120" step="1" value="44">
+        </label>
+        <button class="btn btn-ghost2 btn-block" id="clearMask" type="button">清空墙面蒙版</button>
+      </section>
+
+      <!-- 光感增强 -->
+      <section class="side-sec">
+        <h3 class="side-title">光感增强</h3>
+        <label class="range-row">
+          <span>亮度 <b id="brightnessVal">0</b></span>
+          <input type="range" id="brightness" min="-100" max="100" step="1" value="0">
+        </label>
+        <label class="range-row">
+          <span>对比度 <b id="contrastVal">0</b></span>
+          <input type="range" id="contrast" min="-100" max="100" step="1" value="0">
+        </label>
+        <label class="range-row">
+          <span>饱和度 <b id="saturationVal">0</b></span>
+          <input type="range" id="saturation" min="-100" max="100" step="1" value="0">
+        </label>
+        <label class="range-row">
+          <span>色温 <b class="temp-ends"><i>冷</i><b id="temperatureVal">0</b><i>暖</i></b></span>
+          <input type="range" id="temperature" min="-100" max="100" step="1" value="0">
+        </label>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="autoBtn" type="button">一键焕新</button>
+          <button class="btn btn-ghost2" id="resetFilterBtn" type="button">重置</button>
+        </div>
+      </section>
+
+      <!-- 家具贴纸库（缩略图由 JS 程序化矢量绘制） -->
+      <section class="side-sec">
+        <h3 class="side-title">家具贴纸</h3>
+        <p class="side-tip">点击放到画布中央，或直接拖拽到画面位置</p>
+        <div class="sticker-grid" id="stickerLib"></div>
+      </section>
+
+      <!-- 操作与导出 -->
+      <section class="side-sec">
+        <h3 class="side-title">操作与导出</h3>
+        <div class="btn-row">
+          <button class="btn btn-ghost2" id="undoBtn" type="button">撤销</button>
+          <button class="btn btn-ghost2" id="redoBtn" type="button">重做</button>
+        </div>
+        <button class="btn btn-amber btn-block" id="compareBtn" type="button">按住查看装修前</button>
+        <button class="btn btn-cyan btn-block" id="exportBtn" type="button">导出装修图</button>
+        <button class="btn btn-pink btn-block" id="exportCompareBtn" type="button">导出前后对比图</button>
+        <button class="btn btn-ghost2 btn-block" id="newPhotoBtn" type="button">换一张照片</button>
+      </section>
+    </aside>
+
+    <!-- 移动端抽屉开关 -->
+    <button class="drawer-fab" id="drawerBtn" type="button">工具箱</button>
+
+    <!-- 主舞台 -->
+    <section class="stage">
+      <div class="canvas-frame" id="canvasFrame">
+        <canvas id="canvas" aria-label="装修画布"></canvas>
+        <div class="processing-badge" id="processing" hidden>处理中…</div>
+
+        <!-- 空状态上传卡片 -->
+        <div class="empty-card" id="emptyCard">
+          <div class="upload-ico">
+            <svg viewBox="0 0 64 64" width="72" height="72" aria-hidden="true">
+              <circle cx="32" cy="32" r="30" fill="rgba(124,92,255,.14)" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+              <path fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M32 42V20M22 30l10-10 10 10"/>
+              <path fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" d="M18 46h28"/>
+            </svg>
+          </div>
+          <p class="empty-title">点击或拖入房间照片</p>
+          <p class="empty-sub">支持 JPG / PNG / WebP，手机可直接拍照</p>
+          <div class="empty-actions">
+            <button class="btn btn-primary" id="pickBtn" type="button">选择照片</button>
+            <button class="btn btn-cyan" id="sampleBtn" type="button">试试示例房间</button>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" capture="environment" hidden>
+          <p class="empty-note">照片不会上传，全程在浏览器内处理</p>
+        </div>
+      </div>
+      <div class="stage-hint" id="stageHint">先上传一张房间照片，或试试示例房间</div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
